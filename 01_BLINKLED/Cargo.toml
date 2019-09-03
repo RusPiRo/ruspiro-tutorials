@@ -1,0 +1,23 @@
+[package]
+name = "01_BLINKLED"
+authors = ["Andre Borrmann <pspwizard@gmx.de>"]
+version = "0.0.1"
+description = """
+RusPiRo Tutorial: Blinking LED
+"""
+license = "MIT"
+repository = "https://github.com/RusPiRo/ruspiro-tutorials/"
+readme = "README.md"
+keywords = ["RusPiRo", "baremetal", "raspberrypi", "tutorial"]
+categories = ["no-std", "embedded"]
+edition = "2018"
+publish = false
+
+[[bin]]
+name = "kernel7"        # name of the binary to build
+path = "src/kernel.rs"  # main source file to build the binary from
+
+[dependencies]
+ruspiro-boot = { version = "0.2", features = ["ruspiro_pi3", "with_panic", "with_exception"] }
+ruspiro-gpio = { version = "0.2", features = ["ruspiro_pi3"] }
+ruspiro-timer = { version = "0.1", features = ["ruspiro_pi3"] }

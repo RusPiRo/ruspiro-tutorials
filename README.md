@@ -39,8 +39,8 @@ https://developer.arm.com/tools-and-software/open-source-software/developer-tool
 Choose the version: ``i686-mingw32 hosetd: AArch32 bare-metal target (arm-eabi))``.
 After installing the toolchain it is recommended to adjust the ``PATH`` environment variable to point to the ``bin`` and the ``lib`` subfolders of the toolchain installed. On my machine these folders are relative to my user home dir:
 ```
-BIN = $USER/gcc-arm-eabi/bin
-LIB = $USER/gcc-arm-eabi/lib/gcc/arm-eabi/8.3.0
+BIN = $USERPROFILE/arm-gcc/gcc-arm-eabi/bin
+LIB = $USERPROFILE/arm-gcc/gcc-arm-eabi/lib/gcc/arm-eabi/8.3.0
 ```
 
 If you are running **Mac OS** or **Linux OS** the following CLI command might also
@@ -61,3 +61,8 @@ To write the Rust code you would need an IDE that supports you in writing this c
 If all tools are installed then you are ready to go and check the different tutorials to get your hands on Rust for Raspberry Pi.
 
 See you there ...
+
+| Tutorial | Description |
+|----------|-------------|
+|[01 Blinking LED](01_BLINKLED) | The initial tutorial providing the bare metal version of a "Hello World" program. It aims to help you validate with this easy example that your tools are properly installed and configured. |
+
