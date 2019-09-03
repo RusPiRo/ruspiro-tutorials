@@ -52,13 +52,9 @@ ruspiro-timer = { version = "0.1", features = ["ruspiro_pi3"] }
 What does those dependencies provide:
 | Dependent crate  | Description |
 |------------------|-------------|
-| ``ruspiro-boot`` | Booting the Raspberry Pi in a bare metal setup without an OS requires some initial assembly and preparation. This crate provides all
-the required boot code and is responsible to kick off the cores of the Raspberry Pi and branch into the code written in Rust. For implementing the functions
-in Rust the boot sequence is calling, macros are available. |
-| ``ruspiro-gpio`` | This is the API crate to access the GPIO pins available with the Raspberry Pi. It hides the complexity of the setup and usage of
-the different pin's behind easy to consume function calls. |
-| ``ruspiro-timer`` | Simple timing functions to allow to pause execution for a specif amount of time. The timing is done based on the internal free
-running counter of the Raspberry Pi system timer that is incremented each micro second. |
+| ``ruspiro-boot`` | Booting the Raspberry Pi in a bare metal setup without an OS requires some initial assembly and preparation.<br>This crate provides all the required boot code and is responsible to kick off the cores of the Raspberry Pi and branch<br> into the code written in Rust. For implementing the functions in Rust the boot sequence is calling, macros are available. |
+| ``ruspiro-gpio`` | This is the API crate to access the GPIO pins available with the Raspberry Pi.<br>It hides the complexity of the setup and usage of the different pin's behind easy to consume function calls. |
+| ``ruspiro-timer`` | Simple timing functions to allow to pause execution for a specif amount of time.<br>The timing is done based on the internal free running counter of the Raspberry Pi system timer that is incremented each micro second. |
 
 All the dependend crates provide a feature ``ruspirp_pi3`` that, when active, ensures the proper base address for MMIO mapped registers that allows access to the peripherals
 is used while compiling.
