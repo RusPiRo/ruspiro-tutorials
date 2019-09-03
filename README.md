@@ -62,7 +62,7 @@ If all tools are installed then you are ready to go and check the different tuto
 
 See you there ...
 
-| Tutorial           | Description |
+| Tutorial<img width=150/>| Description |
 |--------------------|-------------|
-|[01 Blinking LED](01_BLINKLED) | The initial tutorial providing the bare metal version of a "Hello World" program.<br>It aims to help you validate with this easy example that your tools are properly installed and configured. |
+|[01 Blinking LED](01_BLINKLED) | The initial tutorial providing the bare metal version of a "Hello World" program. It aims to help you validate with this easy example that your tools are properly installed and configured. |
 

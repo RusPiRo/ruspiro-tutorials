@@ -51,7 +51,7 @@ ruspiro-timer = { version = "0.1", features = ["ruspiro_pi3"] }
 
 What does those dependencies provide:
 
-| Dependent crate  | Description |
+| Dependent crate<img width=200/>| Description |
 |------------------|-------------|
 | [``ruspiro-boot``](https://crates.io/crates/ruspiro-boot) | Booting the Raspberry Pi in a bare metal setup without an OS requires some initial assembly and preparation. This crate provides all the required boot code and is responsible to kick off the cores of the Raspberry Pi and branch into the code written in Rust. For implementing the functions in Rust the boot sequence is calling, macros are available. |
 | [``ruspiro-gpio``](https://crates.io/crates/ruspiro-gpio) | This is the API crate to access the GPIO pins available with the Raspberry Pi. It hides the complexity of the setup and usage of the different pin's behind easy to consume function calls. |
