@@ -51,7 +51,7 @@ ruspiro-timer = { version = "0.1", features = ["ruspiro_pi3"] }
 
 What does those dependencies provide:
 
-| Dependent crate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| Description |
+| Dependent&nbsp;crate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| Description |
 |------------------|-------------|
 | [``ruspiro-boot``](https://crates.io/crates/ruspiro-boot) | Booting the Raspberry Pi in a bare metal setup without an OS requires some initial assembly and preparation. This crate provides all the required boot code and is responsible to kick off the cores of the Raspberry Pi and branch into the code written in Rust. For implementing the functions in Rust the boot sequence is calling, macros are available. |
 | [``ruspiro-gpio``](https://crates.io/crates/ruspiro-gpio) | This is the API crate to access the GPIO pins available with the Raspberry Pi. It hides the complexity of the setup and usage of the different pin's behind easy to consume function calls. |
@@ -143,5 +143,5 @@ from within the project folder to build the kernel image file.
 
 This might take a while at the first attempt as it does download the dependend crates from [crates.io](https://crates.io) and does cross compile the Rust core library. As the build process is incremental by default the next times the build will be much more faster.
 
-The result of a successful execution of the ``build.sh`` script is a file ``kernel7.img`` in the ``target`` subfolder of this package. This file could be put onto the SD card of your Raspberry Pi alongside the ``bootcode.bin`` and ``start.elf``. Putting this card then into the Raspberry Pi and powering on the same should blink the LED's if they are connected to the right GPIO pins.
+The result of a successful execution of the build is a file ``kernel7.img`` in the ``target`` subfolder of this package. This file could be put onto the SD card of your Raspberry Pi alongside the ``bootcode.bin`` and ``start.elf``. Putting this card then into the Raspberry Pi and powering on the same should blink the LED's if they are connected to the right GPIO pins.
 
