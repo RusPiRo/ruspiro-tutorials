@@ -21,7 +21,7 @@ The folder structure is similar to the one of the first example:
 
 To build this kernel we will only refer to a single dependency. The [``ruspiro-sdk`` crate](https://crates.io/crates/ruspiro-sdk)
 bundels the different RusPiRo crates for a more convinient usage. However, the ``ruspiro-sdk`` comes with some features
-to conditional compile refrenced features in, based on the need by the using kernel. The ``ruspiro-sdk`` crate comes with the 
+to conditional compile referenced crates in, based on the need by the using kernel. The ``ruspiro-sdk`` crate comes with the 
 ``ruspiro-boot`` crate as active by default so the rules how the Raspberry Pi is kicked of by our new kernel also apply.
 
 ```

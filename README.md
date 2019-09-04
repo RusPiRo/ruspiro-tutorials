@@ -81,4 +81,4 @@ See you there ...
 | Tutorial&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| Description |
 |--------------------|-------------|
 |[01 Blinking LED](01_BLINKLED) | The initial tutorial providing the bare metal version of a "Hello World" program. It aims to help you validate with this easy example that your tools are properly installed and configured. |
-
+|[02 Console](02_CONSOLE) | This time the Raspberry Pi really writes "Hello World" to a connected terminal console. It uses the bundled ``ruspiro-sdk`` crate for convinient usage of the different bare metal functions provided by the different RusPiRo crated. |
