@@ -56,6 +56,22 @@ To write the Rust code you would need an IDE that supports you in writing this c
 > rustup component add rls --toolchain nightly
 ```
 
+### Deployment
+
+The result of a successfull build is a ``kernel7.img`` file. The easiest way to get this executed on th Raspberry Pi is to copy it onto a fresh FAT32 formatted SD card. This SD card need t contain additional files like ``bootcode.bin``, ``start.elf`` and ``fixup.dat``. The newest versions of them could be found at the official [Github Repo](https://github.com/raspberrypi/firmware/tree/master/boot). The files with ``_x`` suffix indicate extended versions of the GPU boot code that enable access to additional hardware like the buildin bluetooth controler and the like. So if you foresee to use all the peripherals of the Raspberry Pi I recommnd to use those files.
+
+Building the ``kernel7.img`` file and repeatedly put it onto the SD card of the Raspberry Pi pretty soon gets cumbersome. To reduce this SD card "dance" you will find in the [RPi] folder the files you might want to put on your SD card of the Raspberry Pi. This contains already a ``kernel7.img`` which is nothing but a small boot loader. Once you power on the Raspberry Pi this get's executed and waits on the miniUART to receive a new kernel binary to restart with. Use a simple USB-TTL connection dongle to connect your PC/Mac to the miniUart pins (14/15) of the Raspberry Pi. Then use a serial terminal program to send the new kernel binary to the Raspberry Pi through this ``Comm port``. It should be configured for ``115200`` baud rate, ``8 bit`` data, ``no`` parity and ``1`` stop bit without flow control.
+
+On a Windows machine I'm using ``Teraterm`` as this also comes with a small macro execution engine to automate the transfer.
+
+When using the bootloader as provided you first need to send the string ``DEADBEEF`` to the Raspberry Pi that is waiting for this token to know that now the kernel binary is following. After the whole file has been transmitted send again a ``DEADBEEF`` token and the Raspberry Pi will reboot and start with the kernel you just loaded.
+Once done with testing just switch off the raspberry Pi and back on and you could load another version of your kernel if you like with the same procedure.
+
+Check out the [deploy.sh] script which does the preparation of the kernel binary file by prefixing and suffixing with ``DEADBEEF`` and then transferring to the com-port using ``Teraterm``. The sript takes a subfolder name as argument from were to take the ``kernel.img`` file. Assuming a build of our first example this could be deployed by calling:
+```
+> ./deploy.sh 01_BLINKLED
+```
+
 ## Ready to go...
 
 If all tools are installed then you are ready to go and check the different tutorials to get your hands on Rust for Raspberry Pi.

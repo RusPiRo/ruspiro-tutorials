@@ -1,5 +1,4 @@
 #!/bin/bash
-set -ev
 #*****************************************************************
 # build script to build the RusPiRo kernel
 # setting the necessary environment for cross compiling

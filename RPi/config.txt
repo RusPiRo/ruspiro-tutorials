@@ -1,0 +1,4 @@
+start_x=1
+gpu_mem=128
+disable_l2cache=1
+

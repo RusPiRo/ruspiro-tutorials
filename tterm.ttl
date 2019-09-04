@@ -1,0 +1,6 @@
+; Tera Term macro file to transfer binary to COM5
+connect '/C=5'
+setbaud 115200
+changedir param2
+strconcat param2 '\\transfer.img'
+sendfile param2 1
