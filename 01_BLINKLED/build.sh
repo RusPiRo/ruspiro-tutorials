@@ -13,15 +13,18 @@ fi
 # chekc which aarch version to build
 if [ $1 = "64" ]
     then
-        # aarch64
-        export CFLAGS="-march=armv8-a -Wall -O3 -nostdlib -nostartfiles -ffreestanding -mtune=cortex-a53"
-        export RUSTFLAGS="-C target-cpu=cortex-a53 -C target-feature=+strict-align,+a53,+fp-armv8,+neon -C link-arg=-nostartfiles -C link-arg=-T./link64.ld -C opt-level=3 -C debuginfo=0"
         if [ -z "$3" ]
             then
-                export CC="aarch64-elf-gcc"
-                export AR="aarch64-elf-ar"
-                export RUSTFLAGS="-C linker=aarch64-elf-gcc ${RUSTFLAGS}"
+                TOOLCHAIN_PREFIX=aarch64-elf-
+            else
+                TOOLCHAIN_PREFIX=aarch64-linux-gnu-
         fi
+        # aarch64
+        export CFLAGS="-march=armv8-a -Wall -O3 -nostdlib -nostartfiles -ffreestanding -mtune=cortex-a53"
+        export RUSTFLAGS="-C linker=${TOOLCHAIN_PREFIX}gcc -C target-cpu=cortex-a53 -C target-feature=+strict-align,+a53,+fp-armv8,+neon -C link-arg=-nostartfiles -C link-arg=-T./link64.ld -C opt-level=3 -C debuginfo=0"
+        export CC="${TOOLCHAIN_PREFIX}gcc"
+        export AR="${TOOLCHAIN_PREFIX}ar"
+        
         cargo xbuild --target aarch64-unknown-linux-gnu --release --all
         if [ -z "$3" ]
             then
@@ -34,15 +37,17 @@ if [ $1 = "64" ]
         fi
 elif [ $1 = "32" ]
     then
-        # aarch32
-        export CFLAGS="-mfpu=neon-fp-armv8 -mfloat-abi=hard -march=armv8-a -Wall -O3 -nostdlib -nostartfiles -ffreestanding -mtune=cortex-a53"
-        export RUSTFLAGS="-C target-cpu=cortex-a53 -C target-feature=+strict-align,+a53,+fp-armv8,+v8,+vfp3,+d16,+thumb2,+neon -C link-arg=-nostartfiles -C link-arg=-T./link32.ld -C opt-level=3 -C debuginfo=0"
         if [ -z "$3" ]
             then
-                export CC="arm-eabi-gcc"
-                export AR="arm-eabi-ar"
-                export RUSTFLAGS="-C linker=arm-eabi-gcc ${RUSTFLAGS}"
+                TOOLCHAIN_PREFIX=arm-eabi-
+            else
+                TOOLCHAIN_PREFIX=arm-linux-gnueabihf-
         fi
+        # aarch32
+        export CFLAGS="-mfpu=neon-fp-armv8 -mfloat-abi=hard -march=armv8-a -Wall -O3 -nostdlib -nostartfiles -ffreestanding -mtune=cortex-a53"
+        export RUSTFLAGS="-C linker=${TOOLCHAIN_PREFIX}gcc -C target-cpu=cortex-a53 -C target-feature=+strict-align,+a53,+fp-armv8,+v8,+vfp3,+d16,+thumb2,+neon -C link-arg=-nostartfiles -C link-arg=-T./link32.ld -C opt-level=3 -C debuginfo=0"
+        export CC="${TOOLCHAIN_PREFIX}gcc"
+        
         cargo xbuild --target armv7-unknown-linux-gnueabihf --release --bin kernel --target-dir ./target/
         if [ -z "$3" ]
             then
