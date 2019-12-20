@@ -21,7 +21,7 @@ matrix:
         - rustup component add rust-src
         - sudo chmod ugo+x ./01_BLINKLED/build.sh
         - cd ./01_BLINKLED
-      script: ./build.sh 32 build travis
+      script: ./build.sh 32 travis
 
     - name: "01_BLINKLED Aarch64"
       install:
@@ -31,7 +31,7 @@ matrix:
         - rustup component add rust-src
         - sudo chmod ugo+x ./01_BLINKLED/build.sh
         - cd ./01_BLINKLED
-      script: ./build.sh 64 build travis
+      script: ./build.sh 64 travis
 
     - name: "02_CONSOLE Aarch32"
       install:
@@ -41,7 +41,7 @@ matrix:
         - rustup component add rust-src
         - sudo chmod ugo+x ./02_CONSOLE/build.sh
         - cd ./02_CONSOLE
-      script: ./build.sh 32 build travis
+      script: ./build.sh 32 travis
 
     - name: "02_CONSOLE Aarch64"
       install:
@@ -51,4 +51,4 @@ matrix:
         - rustup component add rust-src
         - sudo chmod ugo+x ./02_CONSOLE/build.sh
         - cd ./02_CONSOLE
-      script: ./build.sh 64 build travis
+      script: ./build.sh 64 travis

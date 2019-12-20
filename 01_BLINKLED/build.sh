@@ -6,59 +6,49 @@ set +ev
 
 if [ $# -eq 0 ] 
     then 
-        echo "not enough parameter given"
+        echo "provide the target architecture to build for - 32 or 64"
         exit 1
 fi
 
-# check which aarch version to build
 if [ $1 = "64" ]
     then
-        # use the right compiler toolchain prefix when building on travis
-        if [ -z "$3" ]
-            then
-                TOOLCHAIN_PREFIX=aarch64-elf-
-            else
-                TOOLCHAIN_PREFIX=aarch64-linux-gnu-
-        fi
         # aarch64
-        export CFLAGS="-march=armv8-a -Wall -O3 -nostdlib -nostartfiles -ffreestanding -mtune=cortex-a53"
-        export RUSTFLAGS="-C linker=${TOOLCHAIN_PREFIX}gcc -C target-cpu=cortex-a53 -C target-feature=+strict-align,+a53,+fp-armv8,+neon -C link-arg=-nostartfiles -C link-arg=-T./link64.ld -C opt-level=3 -C debuginfo=0"
-        export CC="${TOOLCHAIN_PREFIX}gcc"
-        export AR="${TOOLCHAIN_PREFIX}ar"
-        
-        cargo xbuild --target aarch64-unknown-linux-gnu --release --all
-        if [ -z "$3" ]
+        # use the right compiler toolchain prefix when building on travis
+        if [ -z "$2" ]
             then
-                cargo objcopy -- -O binary ./target/aarch64-unknown-linux-gnu/release/kernel ./target/kernel8.img
-                # after build deploy to device using serial port
-                if [ "$2" = "deploy" ]
-                    then
-                        cargo ruspiro-push -k ./target/kernel8.img -p COM5
-                fi
+                PREFIX=aarch64-elf-
+            else
+                PREFIX=aarch64-linux-gnu-
         fi
+        CFLAGS="-march=armv8-a -Wall -O3 -nostdlib -nostartfiles -ffreestanding -mtune=cortex-a53"
+        RUSTFLAGS="-C linker=${PREFIX}gcc -C target-cpu=cortex-a53 -C target-feature=+strict-align,+a53,+fp-armv8,+neon -C link-arg=-nostartfiles -C opt-level=3 -C debuginfo=0 -C link-arg=-T./link64.ld"
+        TARGET="aarch64-unknown-linux-gnu"
+        KERNEL="kernel8.img"
 elif [ $1 = "32" ]
     then
-        if [ -z "$3" ]
-            then
-                TOOLCHAIN_PREFIX=arm-eabi-
-            else
-                TOOLCHAIN_PREFIX=arm-linux-gnueabihf-
-        fi
         # aarch32
-        export CFLAGS="-mfpu=neon-fp-armv8 -mfloat-abi=hard -march=armv8-a -Wall -O3 -nostdlib -nostartfiles -ffreestanding -mtune=cortex-a53"
-        export RUSTFLAGS="-C linker=${TOOLCHAIN_PREFIX}gcc -C target-cpu=cortex-a53 -C target-feature=+strict-align,+a53,+fp-armv8,+v8,+vfp3,+d16,+thumb2,+neon -C link-arg=-nostartfiles -C link-arg=-T./link32.ld -C opt-level=3 -C debuginfo=0"
-        export CC="${TOOLCHAIN_PREFIX}gcc"
-        
-        cargo xbuild --target armv7-unknown-linux-gnueabihf --release --bin kernel --target-dir ./target/
-        if [ -z "$3" ]
+        # use the right compiler toolchain prefix when building on travis
+        if [ -z "$2" ]
             then
-                cargo objcopy -- -O binary ./target/armv7-unknown-linux-gnueabihf/release/kernel ./target/kernel7.img
-                # after build deploy to device using serial port
-                if [ "$2" = "deploy" ]
-                    then
-                        cargo ruspiro-push -k ./target/kernel7.img -p COM5
-                fi
+                PREFIX=arm-eabi-
+            else
+                PREFIX=arm-linux-gnueabihf-
         fi
+        CFLAGS="-mfpu=neon-fp-armv8 -mfloat-abi=hard -march=armv8-a -Wall -O3 -nostdlib -nostartfiles -ffreestanding -mtune=cortex-a53"
+        RUSTFLAGS="-C linker=${PREFIX}gcc -C target-cpu=cortex-a53 -C target-feature=+strict-align,+a53,+fp-armv8,+v8,+vfp3,+d16,+thumb2,+neon -C link-arg=-nostartfiles -C link-arg=-T./link32.ld -C opt-level=3 -C debuginfo=0"
+        TARGET="armv7-unknown-linux-gnueabihf"
+        KERNEL="kernel7.img"
 else
     echo 'provide the archtitecture to be build. Use either "build.sh 32" or "build.sh 64" followed by "deploy" if you like to deploy to the device'
+    exit 1
 fi
+
+export CFLAGS=${CFLAGS}
+export RUSTFLAGS=${RUSTFLAGS}
+export CC=${PREFIX}cc
+export AR=${PREFIX}ar
+export TARGET=${TARGET}
+export KERNEL=${KERNEL}
+
+cargo xbuild --target ${TARGET} --release
+cargo objcopy -- -O binary ./target/${TARGET}/release/kernel ./target/${KERNEL}
