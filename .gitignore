@@ -3,4 +3,3 @@
 **/*.rs.bk
 **/release
 .vscode
-transfer.img

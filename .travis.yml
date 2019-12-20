@@ -1,0 +1,32 @@
+# build only master branch on commit's
+# all other branches build on PullRequest creation
+branches:
+  only:
+    - master
+
+language: rust
+
+rust:
+# build nightly only for the time beeing
+  - nightly
+
+matrix:
+  fast_finish: false
+  include:
+    - name: "01_BLINKLED"
+      install:
+        - sudo apt-get install gcc-aarch64-linux-gnu gcc-aarch64-linux-gnu
+        - cargo install cargo-xbuild
+        - rustup target add aarch64-unknown-linux-gnu
+        - rustup component add rust-src
+        - sudo chmod ugo+x 01_BLINKLED/build.sh
+      script: 01_BLINKLED/build.sh travis
+
+    - name: "02_CONSOLE"
+      install:
+        - sudo apt-get install gcc-aarch64-linux-gnu gcc-aarch64-linux-gnu
+        - cargo install cargo-xbuild
+        - rustup target add aarch64-unknown-linux-gnu
+        - rustup component add rust-src
+        - sudo chmod ugo+x 02_CONSOLE/build.sh
+      script: 02_CONSOLE/build.sh travis

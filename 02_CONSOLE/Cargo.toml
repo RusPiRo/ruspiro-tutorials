@@ -1,22 +1,25 @@
 [package]
-name = "02_CONSOLE"
-authors = ["Andre Borrmann <pspwizard@gmx.de>"]
-version = "0.0.1"
+name = "01_blinkled"
+authors = ["André Borrmann <pspwizard@gmx.de>"]
+version = "0.0.1" # remember to update html_root_url
 description = """
-RusPiRo Tutorial: Console output using the miniUART of the Raspberry Pi
+This is a RusPiRo template
 """
-license = "MIT"
-repository = "https://github.com/RusPiRo/ruspiro-tutorials/"
+license = "Apache-2.0"
 readme = "README.md"
-keywords = ["RusPiRo", "baremetal", "raspberrypi", "tutorial"]
 categories = ["no-std", "embedded"]
 edition = "2018"
 publish = false
 
 [[bin]]
-name = "kernel7"        # name of the binary to build
-path = "src/kernel.rs"  # main source file to build the binary from
+name = "kernel"
+path = "./src/kernel.rs"
 
-[dependencies.ruspiro-sdk]
-version = "0.2"
-features = ["ruspiro_pi3", "with_console", "with_uart"]
+[build-dependencies]
+cc = "1.0"
+
+[dependencies]
+ruspiro-boot = { version = "0.3", features = ["ruspiro_pi3", "singlecore"] }
+ruspiro-allocator = "0.3"
+
+[features]

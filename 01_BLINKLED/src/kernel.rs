@@ -1,8 +1,8 @@
 /*********************************************************************************************************************** 
  * Copyright (c) 2019 by the authors
  * 
- * Author: André Borrmann 
- * License: MIT
+ * Author: André Borrmann
+ * License: Apache License 2.0 / MIT
  **********************************************************************************************************************/
 #![no_std]
 #![no_main]
@@ -14,10 +14,18 @@
 //! installed and configured to build a running bare metal kernel for the Raspberry Pi.
 //! 
 //! The Raspberry Pi contains 4 cores that will execute independently from each other. So we assigned a dedicated GPIO pin
-//! to each core.
+//! to each core. If using all 4 cores is not required adjust the `ruspiro-boot`dependency to
+//! activiate the `singlecore`feature like so:
+//! ```toml
+//! [dependencies]
+//! ruspiro-boot = { version = "0.3", features = ["ruspiro_pi3", "singlecore"] }
+//! ```
 //! 
 
-use ruspiro_boot::*;
+#[macro_use]
+extern crate ruspiro_boot;
+extern crate ruspiro_allocator;
+
 use ruspiro_gpio::GPIO;
 use ruspiro_timer as timer;
 
@@ -39,10 +47,10 @@ run_with!(running);
 fn running(core: u32) -> ! {
     // based on the core provided use a different GPIO pin to blink a different LED
     let pin = match core {
-        0 => GPIO.take_for(|gpio| gpio.get_pin(17)).expect("pin 17 already in use?").to_output(),
-        1 => GPIO.take_for(|gpio| gpio.get_pin(18)).expect("pin 18 already in use?").to_output(),
-        2 => GPIO.take_for(|gpio| gpio.get_pin(20)).expect("pin 20 already in use?").to_output(),
-        3 => GPIO.take_for(|gpio| gpio.get_pin(21)).expect("pin 21 already in use?").to_output(),
+        0 => GPIO.take_for(|gpio| gpio.get_pin(17)).unwrap().to_output(),
+        1 => GPIO.take_for(|gpio| gpio.get_pin(18)).unwrap().to_output(),
+        2 => GPIO.take_for(|gpio| gpio.get_pin(20)).unwrap().to_output(),
+        3 => GPIO.take_for(|gpio| gpio.get_pin(21)).unwrap().to_output(),
         _ => unreachable!()
     };
 
