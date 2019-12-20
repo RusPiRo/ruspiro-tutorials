@@ -10,9 +10,10 @@ if [ $# -eq 0 ]
         exit 1
 fi
 
-# chekc which aarch version to build
+# check which aarch version to build
 if [ $1 = "64" ]
     then
+        # use the right compiler toolchain prefix when building on travis
         if [ -z "$3" ]
             then
                 TOOLCHAIN_PREFIX=aarch64-elf-
