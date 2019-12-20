@@ -13,7 +13,7 @@ rust:
 matrix:
   fast_finish: false
   include:
-    - name: "01_BLINKLED"
+    - name: "01_BLINKLED Aarch32"
       install:
         - sudo apt-get install gcc-aarch64-linux-gnu gcc-aarch64-linux-gnu
         - cargo install cargo-xbuild
@@ -21,14 +21,14 @@ matrix:
         - rustup component add rust-src
         - sudo chmod ugo+x ./01_BLINKLED/build.sh
         - cd ./01_BLINKLED
-      script: ./build.sh travis
+      script: ./build.sh 32 build travis
 
-    - name: "02_CONSOLE"
+    - name: "01_BLINKLED Aarch64"
       install:
         - sudo apt-get install gcc-aarch64-linux-gnu gcc-aarch64-linux-gnu
         - cargo install cargo-xbuild
         - rustup target add aarch64-unknown-linux-gnu
         - rustup component add rust-src
-        - sudo chmod ugo+x ./02_CONSOLE/build.sh
-        - cd ./02_CONSOLE
-      script: ./build.sh travis
+        - sudo chmod ugo+x ./01_BLINKLED/build.sh
+        - cd ./01_BLINKLED
+      script: ./build.sh 64 build travis
