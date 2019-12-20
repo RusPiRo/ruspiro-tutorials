@@ -15,9 +15,11 @@ if [ -z "$1" ]
         export CC="aarch64-elf-gcc"
         export AR="aarch64-elf-ar"
         export RUSTFLAGS="-C linker=aarch64-elf-gcc ${RUSTFLAGS}"
+    else
+        CARGOFLAGS="--verbose" 
 fi
 
-cargo xbuild --target aarch64-unknown-linux-gnu --release --all
+cargo xbuild --target aarch64-unknown-linux-gnu --release ${CARGOFLAGS}
 if [ -z "$1" ]
     then
         cargo objcopy -- -O binary ./target/aarch64-unknown-linux-gnu/release/kernel ./target/kernel8.img
