@@ -43,12 +43,12 @@ else
     exit 1
 fi
 
-export CFLAGS=${CFLAGS}
-export RUSTFLAGS=${RUSTFLAGS}
-export CC=${PREFIX}cc
-export AR=${PREFIX}ar
-export TARGET=${TARGET}
-export KERNEL=${KERNEL}
+export CFLAGS="${CFLAGS}"
+export RUSTFLAGS="${RUSTFLAGS}"
+export CC="${PREFIX}cc"
+export AR="${PREFIX}ar"
+export TARGET="${TARGET}"
+export KERNEL="${KERNEL}"
 
 cargo xbuild --target ${TARGET} --release
 cargo objcopy -- -O binary ./target/${TARGET}/release/kernel ./target/${KERNEL}
