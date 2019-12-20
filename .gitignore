@@ -3,3 +3,4 @@
 **/*.rs.bk
 **/release
 .vscode
+**/*/*.ld

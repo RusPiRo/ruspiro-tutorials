@@ -8,7 +8,7 @@ fn main() {
     let src_file = Path::new(&ld_source);
     let trg_file = format!(
         "{}/{}",
-        env::current_dir().unwrap().display(),
+        env::var("CARGO_MANIFEST_DIR").unwrap(),
         src_file.file_name().unwrap().to_str().unwrap()
     );
     println!("Copy linker script from {:?}, to {:?}", src_file, trg_file);

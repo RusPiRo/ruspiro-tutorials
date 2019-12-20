@@ -7,8 +7,8 @@ dependencies = [
  "cc",
  "ruspiro-allocator",
  "ruspiro-boot",
- "ruspiro-gpio 0.2.1",
- "ruspiro-timer 0.1.0",
+ "ruspiro-gpio",
+ "ruspiro-timer",
 ]
 
 [[package]]
@@ -93,7 +93,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2a7f00f959293bc170d28c7fc4792478bd84cf90ed4effea0dd623f1e5474dd7"
 dependencies = [
  "cc",
- "ruspiro-lock 0.3.0",
+ "ruspiro-lock",
 ]
 
 [[package]]
@@ -105,10 +105,10 @@ dependencies = [
  "cc",
  "ruspiro-cache",
  "ruspiro-console",
- "ruspiro-gpio 0.3.0",
+ "ruspiro-gpio",
  "ruspiro-interrupt",
- "ruspiro-register 0.3.1",
- "ruspiro-timer 0.3.0",
+ "ruspiro-register",
+ "ruspiro-timer",
  "ruspiro-uart",
 ]
 
@@ -127,17 +127,7 @@ version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e84f078e1b25822ac159df6c6fad888313b48389f8bc094f545f4ca9ef18230e"
 dependencies = [
- "ruspiro-singleton 0.3.0",
-]
-
-[[package]]
-name = "ruspiro-gpio"
-version = "0.2.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "20202e9cc8fa581e0aab8be36067e2e2a827736b48d2edda1bcd2eedc57bdf89"
-dependencies = [
- "ruspiro-register 0.1.1",
- "ruspiro-singleton 0.2.2",
+ "ruspiro-singleton",
 ]
 
 [[package]]
@@ -146,8 +136,8 @@ version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7441d47c99006e95cd44fe24c1ce67be4506d5c83e8757aed97ad2439882fee4"
 dependencies = [
- "ruspiro-register 0.3.1",
- "ruspiro-singleton 0.3.0",
+ "ruspiro-register",
+ "ruspiro-singleton",
 ]
 
 [[package]]
@@ -157,17 +147,11 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ce6000816b8b3be4aee8d1abcc8aa2a9d8b1683d90d4875417b4f6f4c7111cbf"
 dependencies = [
  "paste",
- "ruspiro-interrupt-core 0.3.0",
+ "ruspiro-interrupt-core",
  "ruspiro-interrupt-macros",
- "ruspiro-register 0.3.1",
- "ruspiro-singleton 0.3.0",
+ "ruspiro-register",
+ "ruspiro-singleton",
 ]
-
-[[package]]
-name = "ruspiro-interrupt-core"
-version = "0.2.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8a15562837cd3acf3ab87cd9f6b37993fd85f715e809d85d3a1ca345ba37d0a8"
 
 [[package]]
 name = "ruspiro-interrupt-core"
@@ -187,27 +171,12 @@ dependencies = [
 
 [[package]]
 name = "ruspiro-lock"
-version = "0.2.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f3d857afc6cfb39b4161cd8a3651977cd75c3838d3a92e60663c6ef6bb0b0f48"
-dependencies = [
- "ruspiro-interrupt-core 0.2.0",
-]
-
-[[package]]
-name = "ruspiro-lock"
 version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e87db6be5a2f908e43b8ccd2b222003c5e68738aaaca456d36debffa79a09e43"
 dependencies = [
- "ruspiro-interrupt-core 0.3.0",
+ "ruspiro-interrupt-core",
 ]
-
-[[package]]
-name = "ruspiro-register"
-version = "0.1.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b980f28994eba9f2f2a7e539acdc2daf7903cd38dd173c24153d4a2a69f23414"
 
 [[package]]
 name = "ruspiro-register"
@@ -217,29 +186,11 @@ checksum = "446d239730182f0745c9d412746da376436ce453c43c87c05057d35d62d1fff3"
 
 [[package]]
 name = "ruspiro-singleton"
-version = "0.2.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b6211cd7c1bc598c39d84d10099e7c36030287f23440649ffc6b32381e181874"
-dependencies = [
- "ruspiro-lock 0.2.2",
-]
-
-[[package]]
-name = "ruspiro-singleton"
 version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e7919b8dd53e14b4132567c623c439451d57252667fe98d2a436ca58b7794f97"
 dependencies = [
- "ruspiro-lock 0.3.0",
-]
-
-[[package]]
-name = "ruspiro-timer"
-version = "0.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "abf2c5cd31f3b5a83e08271fa73cd0ad2ec19f23693a0590a648f66ccf3e1d39"
-dependencies = [
- "ruspiro-register 0.1.1",
+ "ruspiro-lock",
 ]
 
 [[package]]
@@ -248,7 +199,7 @@ version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f355fd9eb71d06c6e34f65b67a8f59477ad1da0e327995ae6af4c9d5cfc949e4"
 dependencies = [
- "ruspiro-register 0.3.1",
+ "ruspiro-register",
 ]
 
 [[package]]
@@ -258,9 +209,9 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f60d251ea4826f69542037e88887c0fbce1ff5b5480c1f6b9993a4fd25c1ced7"
 dependencies = [
  "ruspiro-console",
- "ruspiro-gpio 0.3.0",
- "ruspiro-register 0.3.1",
- "ruspiro-timer 0.3.0",
+ "ruspiro-gpio",
+ "ruspiro-register",
+ "ruspiro-timer",
 ]
 
 [[package]]
