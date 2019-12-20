@@ -31,4 +31,4 @@ matrix:
         - rustup component add rust-src
         - sudo chmod ugo+x ./02_CONSOLE/build.sh
         - cd ./02_CONSOLE
-      script: build.sh travis
+      script: ./build.sh travis
