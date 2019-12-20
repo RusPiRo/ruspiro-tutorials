@@ -21,7 +21,7 @@ cc = "1.0"
 [dependencies]
 ruspiro-boot = { version = "0.3", features = ["ruspiro_pi3"] }
 ruspiro-allocator = { version = "0.3" }
-ruspiro-gpio = { version = "0.2", features = ["ruspiro_pi3"] }
-ruspiro-timer = { version = "0.1", features = ["ruspiro_pi3"] }
+ruspiro-gpio = { version = "0.3", features = ["ruspiro_pi3"] }
+ruspiro-timer = { version = "0.3", features = ["ruspiro_pi3"] }
 
 [features]
