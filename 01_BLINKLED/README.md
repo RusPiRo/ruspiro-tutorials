@@ -179,9 +179,10 @@ specific sleep intervall to let the LED for each core blink in a bit different i
 
 If all tools has been successfully configured ( as described [here](../README.md)), building the
 kernel could be done by executing one the following scripts in the projects root folder:
-Windows                | Linux
------------------------|---------------------------
-<pre>$> make all</pre> | <pre>$> ./build.sh</pre>
+Target Architecture | Windows                  | Linux
+--------------------|--------------------------|---------------------------
+Aarch32             | <pre>$> make all32</pre> | <pre>$> ./build.sh 32</pre>
+Aarch64             | <pre>$> make all64</pre> | <pre>$> ./build.sh 64</pre>
 
 This might take a while at the first attempt as it does download the dependend crates from
 [crates.io](https://crates.io) and does cross compile the Rust core library. As the build process is
@@ -194,7 +195,7 @@ subfolder.
 There are two options available to deploy the kernel to your Raspberry Pi:
 ### :floppy_disk: 1. Manual
 Put this file to the SD card of your Raspberry Pi alongside
-with the ``bootcode.bin`` and ``start.elf``. Those files could be found [here](../RPi) or the latest
+with the ``bootcode.bin``, ``start.elf`` and ``fixup.dat``. Those files could be found [here](../RPi) or the latest
 version on the official Raspberry Pi [firmware repo](https://github.com/raspberrypi/firmware/tree/master/boot).
 Now you could put this card into the Raspberry Pi and power it up. If you properly connected the
 LED's to the GPIO pins 17, 18, 20 and 21 they should blink. **HEUREKA**. This way of deploying
