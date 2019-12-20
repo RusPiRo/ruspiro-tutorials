@@ -45,7 +45,7 @@ to build for this target. This is done by adding the following target which fits
 
 Aarch32 build target | Aarch64 build target
 ---------------------|----------------------
-<pre>$> rustup target add armv7-unknown-linux-gnueabihf</pre>|<pre>$> rustup target add aarch64-unknown-linux-gnu</pre>
+``$> rustup target add armv7-unknown-linux-gnueabihf`` | ``$> rustup target add aarch64-unknown-linux-gnu``
 
 We finish the Rust installation by adding the source code component as it needs to be available for
 the cross compilation:
@@ -62,8 +62,8 @@ https://developer.arm.com/tools-and-software/open-source-software/developer-tool
 
 Architecture | Windows Toolchain | Linux Toolchain
 -------------|-------------------|-------------------
-Aarch32 | download ``i686-mingw32 hosetd: AArch32 bare-metal target (arm-eabi))`` | <pre>$>sudo apt-get install gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf</pre> 
-Aarch64 | download ``i686-mingw32 hosetd: AArch64 bare-metal target (aarch64-elf)`` | <pre>$>sudo apt-get install gcc-aarch64-linux-gnu g++-aarch64-linux-gnu</pre>
+Aarch32 | download ``i686-mingw32 hosetd: AArch32 bare-metal target (arm-eabi))`` | ``$>sudo apt-get install gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf`` 
+Aarch64 | download ``i686-mingw32 hosetd: AArch64 bare-metal target (aarch64-elf)`` | ``$>sudo apt-get install gcc-aarch64-linux-gnu g++-aarch64-linux-gnu``
 
 After installing the toolchain it is recommended to adjust the ``PATH`` environment variable to
 point to the ``bin`` and the ``lib`` subfolders of the toolchain installed.
