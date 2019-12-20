@@ -45,7 +45,7 @@ fi
 
 export CFLAGS="${_CFLAGS}"
 export RUSTFLAGS="${_RUSTFLAGS}"
-export CC="${_PREFIX}cc"
+export CC="${_PREFIX}gcc"
 export AR="${_PREFIX}ar"
 export TARGET="${_TARGET}"
 export KERNEL="${_KERNEL}"
