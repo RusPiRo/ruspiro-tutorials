@@ -1,0 +1,28 @@
+[package]
+name = "03-interrupt"
+authors = ["D054981 <43264484+2ndTaleStudio@users.noreply.github.com>"]
+version = "0.0.1" # remember to update html_root_url
+description = """
+This is a RusPiRo template
+"""
+license = "Apache-2.0"
+readme = "README.md"
+categories = ["no-std", "embedded"]
+edition = "2018"
+publish = false
+
+[[bin]]
+name = "kernel"
+path = "./src/kernel.rs"
+
+[build-dependencies]
+cc = "1.0"
+
+[dependencies]
+ruspiro-boot = { version = "0.3", features = [ "ruspiro_pi3" ] }
+ruspiro-allocator = "0.3"
+ruspiro-interrupt = "0.3"
+ruspiro-register = "0.3"
+ruspiro-timer = "0.3"
+
+[features]
