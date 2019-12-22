@@ -9,7 +9,7 @@ This tutorial will intoduce the usage of the I²C API.
 
 ## :ticket: Prereqisites
 It is assumed that you have at least performed the initial setup as described in [this README](../README.md)
-and that you have read the second tutorial [00_CONSOLE](../02_CONSOLE/README.md).
+and that you have read the second tutorial [02_CONSOLE](../02_CONSOLE/README.md).
 In addition it's recommended to connect I²C enabled devices like the **MPU-6050** (a device to mesure
 actual orientation), the PCA9685( a 16-channel PWM bridge to drive LED's or servo motors). Ensure
 that you properly connect the SDA/SCL/VCC/GND pins of the device with the corresponding GPIO pins 

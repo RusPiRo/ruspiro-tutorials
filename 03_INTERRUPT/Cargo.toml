@@ -19,7 +19,7 @@ path = "./src/kernel.rs"
 cc = "1.0"
 
 [dependencies]
-ruspiro-boot = { version = "0.3", features = [ "ruspiro_pi3" ] }
+ruspiro-boot = { version = "0.3", features = [ "ruspiro_pi3", "singlecore" ] }
 ruspiro-allocator = "0.3"
 ruspiro-interrupt = "0.3"
 ruspiro-register = "0.3"
