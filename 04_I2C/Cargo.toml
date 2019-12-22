@@ -1,9 +1,10 @@
 [package]
-name = "03_interrupt"
+name = "04_i2c"
 authors = ["André Borrmann <pspwizard@gmx.de>"]
 version = "0.0.1" # remember to update html_root_url
 description = """
-This tutorial demonstrates the usage of interrupt handler and how thei are implemented.
+This tutorial demonstrates how to use the I2C peripheral astraction to communicate with a custom
+device attached to this bus.
 """
 license = "Apache-2.0"
 readme = "README.md"
@@ -19,9 +20,8 @@ path = "./src/kernel.rs"
 cc = "1.0"
 
 [dependencies]
-ruspiro-boot = { version = "0.3", features = [ "ruspiro_pi3" ] }
+ruspiro-boot = { version = "0.3", features = [ "ruspiro_pi3", "singlecore" ] }
 ruspiro-allocator = "0.3"
-ruspiro-interrupt = "0.3"
-ruspiro-register = "0.3"
+ruspiro-i2c = { path = "../../i2c", version = "0.3" }
 
 [features]

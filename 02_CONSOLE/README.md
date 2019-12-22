@@ -14,7 +14,7 @@ template. A mimimal version could be found [here](https://github.com/RusPiRo/rus
 
 To use it you use the following command:
 ```
-$> cargo generate --git https://github.com/RusPiRo/ruspiro_templates.git --branch templates/01_minimum --name hello_world
+$> cargo generate --git https://github.com/RusPiRo/ruspiro_templates.git --branch templates/01_minimal --name hello_world
 ```
 
 This will create a new subfolder `hello-world` and create the files and folders based on the template
