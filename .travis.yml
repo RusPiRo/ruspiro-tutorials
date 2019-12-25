@@ -20,9 +20,9 @@ matrix:
         - cargo install cargo-binutils
         - rustup target add armv7-unknown-linux-gnueabihf
         - rustup component add rust-src
-        - rustup component add llvm-tools-preview
-        - sudo chmod ugo+x ./01_BLINKLED/build.sh
+        - rustup component add llvm-tools-preview        
         - cd ./01_BLINKLED
+        - sudo chmod ugo+x ./build.sh
       script: ./build.sh 32 travis
 
     - name: "01_BLINKLED Aarch64"
@@ -33,8 +33,8 @@ matrix:
         - rustup target add aarch64-unknown-linux-gnu
         - rustup component add rust-src
         - rustup component add llvm-tools-preview
-        - sudo chmod ugo+x ./01_BLINKLED/build.sh
         - cd ./01_BLINKLED
+        - sudo chmod ugo+x ./build.sh
       script: ./build.sh 64 travis
 
     - name: "02_CONSOLE Aarch32"
@@ -45,8 +45,8 @@ matrix:
         - rustup target add armv7-unknown-linux-gnueabihf
         - rustup component add rust-src
         - rustup component add llvm-tools-preview
-        - sudo chmod ugo+x ./02_CONSOLE/build.sh
         - cd ./02_CONSOLE
+        - sudo chmod ugo+x ./build.sh
       script: ./build.sh 32 travis
 
     - name: "02_CONSOLE Aarch64"
@@ -57,6 +57,54 @@ matrix:
         - rustup target add aarch64-unknown-linux-gnu
         - rustup component add rust-src
         - rustup component add llvm-tools-preview
-        - sudo chmod ugo+x ./02_CONSOLE/build.sh
         - cd ./02_CONSOLE
+        - sudo chmod ugo+x ./build.sh
+      script: ./build.sh 64 travis
+
+    - name: "03_INTERRUPT Aarch32"
+      install:
+        - sudo apt-get install gcc-arm-linux-gnueabihf
+        - cargo install cargo-xbuild
+        - cargo install cargo-binutils
+        - rustup target add armv7-unknown-linux-gnueabihf
+        - rustup component add rust-src
+        - rustup component add llvm-tools-preview
+        - cd ./03_INTERRUPT
+        - sudo chmod ugo+x ./build.sh
+      script: ./build.sh 32 travis
+
+    - name: "03_INTERRUPT Aarch64"
+      install:
+        - sudo apt-get install gcc-aarch64-linux-gnu
+        - cargo install cargo-xbuild
+        - cargo install cargo-binutils
+        - rustup target add aarch64-unknown-linux-gnu
+        - rustup component add rust-src
+        - rustup component add llvm-tools-preview
+        - cd ./03_INTERRUPT
+        - sudo chmod ugo+x ./build.sh
+      script: ./build.sh 64 travis
+
+    - name: "04_I2C Aarch32"
+      install:
+        - sudo apt-get install gcc-arm-linux-gnueabihf
+        - cargo install cargo-xbuild
+        - cargo install cargo-binutils
+        - rustup target add armv7-unknown-linux-gnueabihf
+        - rustup component add rust-src
+        - rustup component add llvm-tools-preview
+        - cd ./04_I2C
+        - sudo chmod ugo+x ./build.sh
+      script: ./build.sh 32 travis
+
+    - name: "04_I2C Aarch64"
+      install:
+        - sudo apt-get install gcc-aarch64-linux-gnu
+        - cargo install cargo-xbuild
+        - cargo install cargo-binutils
+        - rustup target add aarch64-unknown-linux-gnu
+        - rustup component add rust-src
+        - rustup component add llvm-tools-preview
+        - cd ./04_I2C
+        - sudo chmod ugo+x ./build.sh
       script: ./build.sh 64 travis

@@ -1,0 +1,27 @@
+[package]
+name = "03_interrupt"
+authors = ["André Borrmann <pspwizard@gmx.de>"]
+version = "0.0.1" # remember to update html_root_url
+description = """
+This tutorial demonstrates the usage of interrupt handler and how thei are implemented.
+"""
+license = "Apache-2.0"
+readme = "README.md"
+categories = ["no-std", "embedded"]
+edition = "2018"
+publish = false
+
+[[bin]]
+name = "kernel"
+path = "./src/kernel.rs"
+
+[build-dependencies]
+cc = "1.0"
+
+[dependencies]
+ruspiro-boot = { version = "0.3", features = [ "ruspiro_pi3", "singlecore" ] }
+ruspiro-allocator = "0.3"
+ruspiro-interrupt = "0.3"
+ruspiro-register = "0.3"
+
+[features]

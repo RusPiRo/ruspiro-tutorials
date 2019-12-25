@@ -1,4 +1,10 @@
 # Changelog
+## :pizza: v0.4.0
+  - ### :bulb: Features
+    Added the following tutorials:<br>
+    03_INTERRUPT<br>
+    04_I2C<br>
+
 ## :carrot: v0.3.0
   - ### :bulb: Features
     Provide initial tutorials, able to be build in aarch32 and aarch64:<br>

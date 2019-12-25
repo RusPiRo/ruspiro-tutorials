@@ -1,7 +1,6 @@
 /target
-**/*/target
+**/target
+*.img
 **/*.rs.bk
 **/release
 .vscode
-**/*/*.ld
-**/*/*.lock

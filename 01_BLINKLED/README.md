@@ -17,7 +17,7 @@ template. A mimimal version could be found [here](https://github.com/RusPiRo/rus
 
 To use it you use the following command:
 ```
-$> cargo generate --git https://github.com/RusPiRo/ruspiro_templates.git --branch templates/01_minimum --name hello_led
+$> cargo generate --git https://github.com/RusPiRo/ruspiro_templates.git --branch templates/01_minimal --name hello_led
 ```
 
 This will create a new subfolder `hello-led` and create the files and folders based on the template
