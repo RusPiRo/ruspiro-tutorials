@@ -22,6 +22,6 @@ cc = "1.0"
 [dependencies]
 ruspiro-boot = { version = "0.3", features = [ "ruspiro_pi3", "singlecore" ] }
 ruspiro-allocator = "0.3"
-ruspiro-i2c = { path = "../../i2c", version = "0.3" }
+ruspiro-i2c = "0.3"
 
 [features]
