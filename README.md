@@ -56,8 +56,8 @@ https://developer.arm.com/tools-and-software/open-source-software/developer-tool
 
 Architecture | Windows Toolchain | Linux Toolchain
 -------------|-------------------|-------------------
-Aarch32 | download ``i686-mingw64 hosetd: AArch32 bare-metal target (arm-eabi))`` | ``$>sudo apt-get install gcc-arm-linux-gnueabihf`` 
-Aarch64 | download ``i686-mingw64 hosetd: AArch64 bare-metal target (aarch64-elf)`` | ``$>sudo apt-get install gcc-aarch64-linux-gnu``
+Aarch32 | download ``i686-mingw64 hosetd: AArch32 bare-metal target (arm-none-eabi))`` | ``$>sudo apt-get install gcc-arm-none-abi`` 
+Aarch64 | download ``i686-mingw64 hosetd: AArch64 bare-metal target (aarch64-none-elf)`` | download ``x86_64-linux hosetd: AArch64 bare-metal target (aarch64-none-elf)``
 
 After installing the toolchain it is recommended to adjust the ``PATH`` environment variable to
 point to the ``bin`` and the ``lib`` subfolders of the toolchain installed.

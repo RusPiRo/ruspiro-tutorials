@@ -1,4 +1,10 @@
 # Changelog
+## :banana: v0.5.0
+  - ### :wrench: Maintenance
+    It has been seen that the current Rust versions don't like crate names to start with numbers. So the tutorial cratenames where updated. In dditon - where applicable - the versions to the dependend ``ruspiro`` crates where updated and necessary code adopted to those versions inside the tutorials.
+  - ### :book: Dokumentation
+    Minor updates on the main README.md to reflect a better suited toolchain to be use. The ``aarch64-none-elf`` and ``arm-none-eabi`` with their corresponding Rust targets ``aarch64-unknown-none`` and ``armv7-none-eabi``
+
 ## :pizza: v0.4.0
   - ### :bulb: Features
     Added the following tutorials:<br>
