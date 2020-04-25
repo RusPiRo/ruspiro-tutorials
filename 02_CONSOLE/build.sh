@@ -27,13 +27,8 @@ if [ $1 = "64" ]
 elif [ $1 = "32" ]
     then
         # aarch32
-        # use the right compiler toolchain prefix when building on travis
-        if [ -z "$2" ]
-            then
-                PREFIX=arm-none-eabi-
-            else
-                PREFIX=arm-linux-gnueabihf-
-        fi
+        # use the right compiler toolchain prefix when building
+        PREFIX=arm-none-eabi-
         CFLAGS="-mcpu=cortex-a53 -march=armv7-a -mfpu=neon -mfloat-abi=softfp -Wall -O3 -nostdlib -nostartfiles -ffreestanding -mtune=cortex-a53"
         RUSTFLAGS="-C linker=${PREFIX}gcc -C target-cpu=cortex-a53 -C link-arg=-nostartfiles -C link-arg=-T./link32.ld"
         TARGET="armv7a-none-eabi"

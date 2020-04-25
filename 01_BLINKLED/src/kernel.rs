@@ -1,4 +1,4 @@
-/*********************************************************************************************************************** 
+/***********************************************************************************************************************
  * Copyright (c) 2019 by the authors
  * 
  * Author: André Borrmann
@@ -10,12 +10,12 @@
 //! # Hello World
 //! 
 //! This is the initial RusPiRo tutorial. It's the bare metal version of a "Hello World" programm greeting the world
-//! by blinking a LED. It's intention is - while limited in functionality - to verify the tools and programs are properly
-//! installed and configured to build a running bare metal kernel for the Raspberry Pi.
+//! by blinking a LED. It's intention is - while limited in functionality - to verify the tools and programs are 
+//! properly installed and configured to build a running bare metal kernel for the Raspberry Pi.
 //! 
-//! The Raspberry Pi contains 4 cores that will execute independently from each other. So we assigned a dedicated GPIO pin
-//! to each core. If using all 4 cores is not required adjust the `ruspiro-boot`dependency to
-//! activiate the `singlecore`feature like so:
+//! The Raspberry Pi contains 4 cores that will execute independently from each other. So we assigned a dedicated GPIO 
+//! pin to each core. If using all 4 cores is not required adjust the `ruspiro-boot` dependency to
+//! activiate the `singlecore` feature like so:
 //! ```toml
 //! [dependencies]
 //! ruspiro-boot = { version = "0.3", features = ["ruspiro_pi3", "singlecore"] }
