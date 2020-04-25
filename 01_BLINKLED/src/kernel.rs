@@ -47,10 +47,10 @@ run_with!(running);
 fn running(core: u32) -> ! {
     // based on the core provided use a different GPIO pin to blink a different LED
     let pin = match core {
-        0 => GPIO.take_for(|gpio| gpio.get_pin(17)).unwrap().to_output(),
-        1 => GPIO.take_for(|gpio| gpio.get_pin(18)).unwrap().to_output(),
-        2 => GPIO.take_for(|gpio| gpio.get_pin(20)).unwrap().to_output(),
-        3 => GPIO.take_for(|gpio| gpio.get_pin(21)).unwrap().to_output(),
+        0 => GPIO.take_for(|gpio| gpio.get_pin(17)).unwrap().into_output(),
+        1 => GPIO.take_for(|gpio| gpio.get_pin(18)).unwrap().into_output(),
+        2 => GPIO.take_for(|gpio| gpio.get_pin(20)).unwrap().into_output(),
+        3 => GPIO.take_for(|gpio| gpio.get_pin(21)).unwrap().into_output(),
         _ => unreachable!()
     };
 
@@ -58,8 +58,8 @@ fn running(core: u32) -> ! {
     // blinking the LED
     loop {
         pin.high();
-        timer::sleep(10000 + 10000*core as u64);
+        timer::sleep(timer::Useconds(10000 + 10000*core as u64));
         pin.low();
-        timer::sleep(15000 + 5000*core as u64);
+        timer::sleep(timer::Useconds(15000 + 5000*core as u64));
     } // never return here...
 }

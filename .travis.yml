@@ -15,10 +15,10 @@ matrix:
   include:
     - name: "01_BLINKLED Aarch32"
       install:
-        - sudo apt-get install gcc-arm-linux-gnueabihf
+        - sudo apt-get install gcc-arm-none-eabi
         - cargo install cargo-xbuild
         - cargo install cargo-binutils
-        - rustup target add armv7-unknown-linux-gnueabihf
+        - rustup target add armv7a-none-eabi
         - rustup component add rust-src
         - rustup component add llvm-tools-preview        
         - cd ./01_BLINKLED
@@ -27,10 +27,10 @@ matrix:
 
     - name: "01_BLINKLED Aarch64"
       install:
-        - sudo apt-get install gcc-aarch64-linux-gnu
+        - sudo apt-get install gcc-aarch64-none-elf
         - cargo install cargo-xbuild
         - cargo install cargo-binutils
-        - rustup target add aarch64-unknown-linux-gnu
+        - rustup target add aarch64-unknown-none
         - rustup component add rust-src
         - rustup component add llvm-tools-preview
         - cd ./01_BLINKLED
