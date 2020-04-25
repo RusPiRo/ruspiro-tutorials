@@ -1,5 +1,5 @@
 [package]
-name = "01_blinkled"
+name = "TUT_01_blinkled"
 authors = ["André Borrmann <pspwizard@gmx.de>"]
 version = "0.0.1" # remember to update html_root_url
 description = """
@@ -20,8 +20,7 @@ cc = "1.0"
 
 [dependencies]
 ruspiro-boot = { version = "0.3", features = ["ruspiro_pi3"] }
-ruspiro-allocator = { version = "0.3" }
-ruspiro-gpio = { version = "0.3", features = ["ruspiro_pi3"] }
-ruspiro-timer = { version = "0.3", features = ["ruspiro_pi3"] }
+ruspiro-allocator = { version = "0.4" }
+ruspiro-gpio = { version = "0.4", features = ["ruspiro_pi3"] }
+ruspiro-timer = { version = "0.4", features = ["ruspiro_pi3"] }
 
-[features]
