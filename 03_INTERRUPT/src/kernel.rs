@@ -82,23 +82,23 @@ define_mmio_register!(
     TIMERCTRL<ReadWrite<u32>@(0x3F00_B408)> {
         // with of the timer counting value
         WIDTH OFFSET(1) [
-            _16Bit: 0,
-            _32Bit: 1
+            _16Bit = 0,
+            _32Bit = 1
         ],
         // flag to enable interrupts raised by the timer
         IRQ OFFSET(5) [
-            ENABLED: 1,
-            DISABLED: 0
+            ENABLED = 1,
+            DISABLED = 0
         ],
         // flag to enable the timer
         TIMER OFFSET(7) [
-            ENABLED: 1,
-            DISABLED: 0
+            ENABLED = 1,
+            DISABLED = 0
         ],
         // flag to enable free-running counter of the timer
         FREERUN OFFSET(9) [
-            ENABLED: 1,
-            DISABLED: 0
+            ENABLED = 1,
+            DISABLED = 0
         ]
     },
     // timer interrupt acknowledge register

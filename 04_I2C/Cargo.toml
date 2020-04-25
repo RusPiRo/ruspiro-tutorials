@@ -1,5 +1,5 @@
 [package]
-name = "04_i2c"
+name = "TUT_04_i2c"
 authors = ["André Borrmann <pspwizard@gmx.de>"]
 version = "0.0.1" # remember to update html_root_url
 description = """
@@ -21,7 +21,7 @@ cc = "1.0"
 
 [dependencies]
 ruspiro-boot = { version = "0.3", features = [ "ruspiro_pi3", "singlecore" ] }
-ruspiro-allocator = "0.3"
+ruspiro-allocator = "0.4"
 ruspiro-i2c = "0.3"
 
 [features]

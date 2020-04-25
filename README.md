@@ -18,25 +18,19 @@ of Rust. We will mainly focus the ``Embedded`` world and thus relying on the ``c
 ### Rust
 To get things started you first need to install Rust on your development machine. The easiest way to 
 do so is by installing the ``rustup`` installer from [https://rustup.rs/](https://rustup.rs/).
-> ::bulb: **HINT** run the ``rustup-init.exe`` on a windows machine
+> ::bulb: **HINT** run the ``rustup-init.exe`` on a windows machine and choose to install ``x86_64-pc-windows-msvc`` as toolchain, the ``nightly`` rust version and the ``minimal`` rust package. This will not install the documentation locally but it has been seen this sometimes causes issues while installing on windows.
 
 ``Rustup`` is mainly a command line interface (CLI) to help you installing and configuring your
 **Rust** environment on your machine. The first thing to do is to install the required tools to 
 build the bare metal kernel we are about to develop. This is done using your prefered CLI like 
 *git bash*, *powershell* on ``Windows``.
 
-```
-$> rustup install nightly-gnu
-```
-This will install the nightly toolchain for your hosting machine. For my windows machine this would
-be ``nightly-x86_64-pc-windows-gnu``. The exact toolchain name could differ based on your host
-machine.
-
 The tool used to build/compile our Rust code is called *cargo*. This is installed as part of the 
 Rust environment. However, as we would like to crosscompile (from a windows host machine in my case)
-we need to install an additional tool called ``xbuild``.
-```
+we need to install two additional tools ``xbuild`` and ``binutils``.
+```shell
 $> cargo install cargo-xbuild
+$> cargo install cargo-binutils
 ```
 
 After installing the cross-build tool we need to also install the crosscompile target to enable Rust
@@ -45,7 +39,7 @@ to build for this target. This is done by adding the following target which fits
 
 Aarch32 build target | Aarch64 build target
 ---------------------|----------------------
-``$> rustup target add armv7-unknown-linux-gnueabihf`` | ``$> rustup target add aarch64-unknown-linux-gnu``
+``$> rustup target add armv7a-none-eabi`` | ``$> rustup target add aarch64-unknown-none``
 
 We finish the Rust installation by adding the source code component as it needs to be available for
 the cross compilation:
@@ -62,8 +56,8 @@ https://developer.arm.com/tools-and-software/open-source-software/developer-tool
 
 Architecture | Windows Toolchain | Linux Toolchain
 -------------|-------------------|-------------------
-Aarch32 | download ``i686-mingw32 hosetd: AArch32 bare-metal target (arm-eabi))`` | ``$>sudo apt-get install gcc-arm-linux-gnueabihf`` 
-Aarch64 | download ``i686-mingw32 hosetd: AArch64 bare-metal target (aarch64-elf)`` | ``$>sudo apt-get install gcc-aarch64-linux-gnu``
+Aarch32 | download ``i686-mingw64 hosetd: AArch32 bare-metal target (arm-none-eabi))`` | ``$>sudo apt-get install gcc-arm-none-abi`` 
+Aarch64 | download ``i686-mingw64 hosetd: AArch64 bare-metal target (aarch64-none-elf)`` | download ``x86_64-linux hosetd: AArch64 bare-metal target (aarch64-none-elf)``
 
 After installing the toolchain it is recommended to adjust the ``PATH`` environment variable to
 point to the ``bin`` and the ``lib`` subfolders of the toolchain installed.
@@ -77,6 +71,24 @@ extension. This will, when used the first time, automatically install the rust l
 for you. If you'd like to install it on your own use this command:
 ```
 $> rustup component add rls --toolchain nightly
+```
+
+In case you'd like to use the RLS to not compile for the host system but also for the desired target some additional steps should
+be considered.
+
+First we should set the global environment variables to tell rust which ``gcc`` and ``ar`` to use for the cross compilation like so
+```shell
+$> set CC_aarch64-unknown-linux-gnu=aarch64-none-elf-gcc.exe
+$> set AR_aarch64-unknown-linux-gnu=aarch64-none-elf-ar.exe
+```
+However, those are best set in the global system environment variables to allow the RLS to pick them up. In macOS/Linux this might be settings for the ``.bashprofile``.
+
+Further more it makes sense within Visual Studio Code to set the following settings (could be done workspace specific):
+```
+    "rust.build_on_save": true,
+    "rust.clippy_preference": "on",
+    "rust.target": "aarch64-unknown-none",
+    "rust.rustflags": "-C linker=aarch64-none-elf-gcc -C target-cpu=cortex-a53"
 ```
 
 ### :computer: Deployment
