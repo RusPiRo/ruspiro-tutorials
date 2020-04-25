@@ -27,7 +27,7 @@ matrix:
 
     - name: "01_BLINKLED Aarch64"
       install:
-        - sudo apt-get install aarch64-none-elf-gcc
+        - sudo apt-get install gcc-aarch64-linux-gnu
         - cargo install cargo-xbuild
         - cargo install cargo-binutils
         - rustup target add aarch64-unknown-none

@@ -18,7 +18,7 @@ if [ $1 = "64" ]
             then
                 PREFIX=aarch64-none-elf-
             else
-                PREFIX=aarch64-none-elf- #linux-gnu-
+                PREFIX=aarch64-linux-gnu-
         fi
         CFLAGS="-march=armv8-a -Wall -O3 -nostdlib -nostartfiles -ffreestanding -mtune=cortex-a53"
         RUSTFLAGS="-C linker=${PREFIX}gcc -C target-cpu=cortex-a53 -C link-arg=-nostartfiles -C link-arg=-T./link64.ld"
