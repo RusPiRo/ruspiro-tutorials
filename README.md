@@ -27,10 +27,13 @@ build the bare metal kernel we are about to develop. This is done using your pre
 
 The tool used to build/compile our Rust code is called *cargo*. This is installed as part of the 
 Rust environment. However, as we would like to crosscompile (from a windows host machine in my case)
-we need to install two additional tools ``xbuild`` and ``binutils``.
+we need to install two additional tools ``xbuild`` and ``binutils``. Also very helpful for a convinient build pipeline is the
+``cargo make`` tool which we will use in conjuction with a ``Makefile.toml`` to build the examples given in each tutorial.
+
 ```shell
 $> cargo install cargo-xbuild
 $> cargo install cargo-binutils
+$> cargo install cargo-make
 ```
 
 After installing the cross-build tool we need to also install the crosscompile target to enable Rust

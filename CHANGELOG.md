@@ -1,4 +1,9 @@
 # Changelog
+## :banana: v0.5.1
+  - ### :wrench: Maintenance
+    Use ``cargo-make`` cargo plugin to conviniently build the tutorials cross system. This reduces the maintenance efforts
+    of the existing build scripts / makefiles.
+    
 ## :banana: v0.5.0
   - ### :wrench: Maintenance
     It has been seen that the current Rust versions don't like crate names to start with numbers. So the tutorial cratenames where updated. In dditon - where applicable - the versions to the dependend ``ruspiro`` crates where updated and necessary code adopted to those versions inside the tutorials.

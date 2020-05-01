@@ -137,11 +137,11 @@ In this tutorial we only use the on-time initialization function to implement ou
 ## :hammer_and_wrench: Building The Kernel
 
 If all tools has been successfully configured ( as described [here](../README.md)), building the
-kernel could be done by executing one the following scripts in the projects root folder:
-Target Architecture | Windows                  | Linux
---------------------|--------------------------|---------------------------
-Aarch32             | <pre>$> make all32</pre> | <pre>$> ./build.sh 32</pre>
-Aarch64             | <pre>$> make all64</pre> | <pre>$> ./build.sh 64</pre>
+kernel could be done by executing one the following commands in the projects root folder:
+Target Architecture | Command
+--------------------|--------------------------
+Aarch32             | <pre>$> cargo make pi3 --profile a32</pre> 
+Aarch64             | <pre>$> cargo make pi3 --profile a64</pre>
 
 ## :computer: Deploy The Kernel
 

@@ -28,9 +28,15 @@ To utilize the I²C API in your own crate you need the following dependencies to
 ``Cargo.toml`` file:
 ```toml
 [dependencies]
-ruspiro-boot = { version = "0.3", features = [ "ruspiro_pi3", "singlecore" ] }
-ruspiro-allocator = "0.3"
+ruspiro-boot = { version = "0.3", features = [ "singlecore" ] }
+ruspiro-allocator = "0.4"
 ruspiro-i2c = "0.3"
+
+[features]
+ruspiro_pi3 = [
+    "ruspiro-boot/ruspiro_pi3",
+    "ruspiro-i2c/ruspiro_pi3"
+]
 ```
 
 To keep things a bit simpler we also configured the ``ruspiro-boot`` crate this time to be build in
@@ -74,11 +80,11 @@ In this tutorial we only use the on-time initialization function to implement ou
 ## :hammer_and_wrench: Building The Kernel
 
 If all tools has been successfully configured ( as described [here](../README.md)), building the
-kernel could be done by executing one the following scripts in the projects root folder:
-Target Architecture | Windows                  | Linux
---------------------|--------------------------|---------------------------
-Aarch32             | <pre>$> make all32</pre> | <pre>$> ./build.sh 32</pre>
-Aarch64             | <pre>$> make all64</pre> | <pre>$> ./build.sh 64</pre>
+kernel could be done by executing one the following commands in the projects root folder:
+Target Architecture | Command
+--------------------|--------------------------
+Aarch32             | <pre>$> cargo make pi3 --profile a32</pre> 
+Aarch64             | <pre>$> cargo make pi3 --profile a64</pre>
 
 ## :computer: Deploy The Kernel
 

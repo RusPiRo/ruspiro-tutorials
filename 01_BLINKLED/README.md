@@ -33,8 +33,7 @@ repo and how it will look like at your end, if you used the template mentionned 
 ├─ Cargo.toml       // the build configuration file to tell Rust how to build our bare metal binary and what we
 │                   // depend on (which crates to incorporate into the build)
 ├─ build.rs         // specif build script to provide the correct linker script file
-├─ build.sh         // a small script to execute the rust build
-├─ makefile         // a makefile to execute the rust build in case you prefer make over the shell script
+├─ Makefile.toml    // the makefile to execute the rust build with *cargo make*
 ├─ LICENSE-*        // the license files for your crate
 └─ README.md        // well, this is the file you are currently reading, at this very moment :)
 
@@ -74,10 +73,21 @@ To start a lightweight first bare metal kernel for Raspberry Pi we would need th
 dependencies to be configured:
 ```toml
 [dependencies]
-ruspiro-boot = { version = "0.3", features = ["ruspiro_pi3"] }
-ruspiro-allocator = { version = "0.3" }
-ruspiro-gpio = { version = "0.2", features = ["ruspiro_pi3"] }
-ruspiro-timer = { version = "0.1", features = ["ruspiro_pi3"] }
+ruspiro-boot = "0.3"
+ruspiro-allocator = "0.4"
+ruspiro-gpio = "0.4"
+ruspiro-timer = "0.4"
+```
+
+We will also specify a features that will be passed to the dependend crates where necessary to choos the Raspberry Pi model
+we are targeting. This is required as different models may have different MMIO register base addresses.
+```toml
+[features]
+ruspiro_pi3 = [
+    "ruspiro-boot/ruspiro_pi3",
+    "ruspiro-gpio/ruspiro_pi3",
+    "ruspiro-timer/ruspiro_pi3"
+]
 ```
 
 Except the `ruspiro-gpio`and the `ruspiro-timer` the dependency section should be prefilled from the
@@ -91,9 +101,6 @@ What does those dependencies provide:
 | [``ruspiro-allocator``](https://crates.io/crates/ruspiro-allocator) | Providing a lightweight HEAP memory allocator |
 | [``ruspiro-gpio``](https://crates.io/crates/ruspiro-gpio) | This is the API crate to access the GPIO pins available with the Raspberry Pi. It hides the complexity of the setup and usage of the different pin's behind easy to consume function calls. |
 | [``ruspiro-timer``](https://crates.io/crates/ruspiro-timer) | Simple timing functions to allow to pause execution for a specific amount of time. The timing is done based on the internal free running counter of the Raspberry Pi system timer that is incremented each micro second. |
-
-All the dependend crates provide a feature ``ruspirp_pi3`` that, when active, ensures the correct
-base address for MMIO mapped registers that allows access to the peripherals is used while compiling.
 
 ## :mailbox: The Kernel File
 
@@ -178,11 +185,11 @@ specific sleep intervall to let the LED for each core blink in a bit different i
 ## :hammer_and_wrench: Building the kernel
 
 If all tools has been successfully configured ( as described [here](../README.md)), building the
-kernel could be done by executing one the following scripts in the projects root folder:
-Target Architecture | Windows                  | Linux
---------------------|--------------------------|---------------------------
-Aarch32             | <pre>$> make all32</pre> | <pre>$> ./build.sh 32</pre>
-Aarch64             | <pre>$> make all64</pre> | <pre>$> ./build.sh 64</pre>
+kernel could be done by executing one the following commands in the projects root folder:
+Target Architecture | Command
+--------------------|--------------------------
+Aarch32             | <pre>$> cargo make pi3 --profile a32</pre> 
+Aarch64             | <pre>$> cargo make pi3 --profile a64</pre>
 
 This might take a while at the first attempt as it does download the dependend crates from
 [crates.io](https://crates.io) and does cross compile the Rust core library. As the build process is
