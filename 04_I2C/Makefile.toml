@@ -1,0 +1,49 @@
+#***********************************************************************************************************************
+# cargo make tasks to build the example for the Raspberry Pi
+#***********************************************************************************************************************
+[env.a64]
+CC = "aarch64-none-elf-gcc"
+AR = "aarch64-none-elf-ar"
+OC = "aarch64-none-elf-objcopy"
+CFLAGS = "-march=armv8-a -Wall -O3 -nostdlib -nostartfiles -ffreestanding -mtune=cortex-a53"
+RUSTFLAGS = "-C linker=${CC} -C target-cpu=cortex-a53 -C link-arg=-nostartfiles -C link-arg=-T./link64.ld"
+BUILD_TARGET = "aarch64-unknown-linux-gnu"
+KERNEL = "kernel8.img"
+
+[env.a32]
+CC = "arm-none-eabi-gcc"
+AR = "arm-none-eabi-ar"
+OC = "arm-none-eabi-objcopy"
+CFLAGS = "-mcpu=cortex-a53 -march=armv7-a -mfpu=neon -mfloat-abi=softfp -Wall -O3 -nostdlib -nostartfiles"
+RUSTFLAGS = "-C linker=${CC} -C target-cpu=cortex-a53 -C link-arg=-nostartfiles -C link-arg=-T./link32.ld"
+BUILD_TARGET = "armv7a-none-eabi"
+KERNEL = "kernel7.img"
+
+# Travis CI need a different CC/AR alltogether as the aarch64-none-elf is not available there as it seems
+[env.a64-travis]
+CC = "aarch64-linux-gnu-gcc"
+AR = "aarch64-linux-gnu-ar"
+OC = "aarch64-linux-gnu-objcopy"
+CFLAGS = "-march=armv8-a -Wall -O3 -nostdlib -nostartfiles -ffreestanding -mtune=cortex-a53"
+RUSTFLAGS = "-C linker=${CC} -C target-cpu=cortex-a53 -C link-arg=-nostartfiles -C link-arg=-T./link64.ld"
+BUILD_TARGET = "aarch64-unknown-linux-gnu"
+KERNEL = "kernel8.img"
+
+[tasks.kernel]
+command = "${OC}"
+args = ["-O", "binary", "target/${BUILD_TARGET}/release/kernel", "target/${KERNEL}"]
+
+[tasks.xbuild]
+command = "cargo"
+args = ["xbuild", "--target", "${BUILD_TARGET}", "--release", "--bin", "kernel", "--features", "${FEATURES}"]
+
+[tasks.pi3]
+env = { FEATURES = "ruspiro_pi3" }
+run_task = [
+    { name = "xbuild" },
+    { name = "kernel" }
+]
+
+[tasks.clean]
+command = "cargo"
+args = ["clean"]

@@ -22,8 +22,7 @@ matrix:
         - rustup component add rust-src
         - rustup component add llvm-tools-preview        
         - cd ./01_BLINKLED
-        - sudo chmod ugo+x ./build.sh
-      script: ./build.sh 32 travis
+      script: cargo make pi3 --profile 32
 
     - name: "01_BLINKLED Aarch64"
       install:
@@ -34,8 +33,7 @@ matrix:
         - rustup component add rust-src
         - rustup component add llvm-tools-preview
         - cd ./01_BLINKLED
-        - sudo chmod ugo+x ./build.sh
-      script: ./build.sh 64 travis
+      script: cargo make pi3 --profile 64-travis
 
     - name: "02_CONSOLE Aarch32"
       install:
@@ -46,8 +44,7 @@ matrix:
         - rustup component add rust-src
         - rustup component add llvm-tools-preview
         - cd ./02_CONSOLE
-        - sudo chmod ugo+x ./build.sh
-      script: ./build.sh 32 travis
+      script: cargo make pi3 --profile 32
 
     - name: "02_CONSOLE Aarch64"
       install:
@@ -58,8 +55,7 @@ matrix:
         - rustup component add rust-src
         - rustup component add llvm-tools-preview
         - cd ./02_CONSOLE
-        - sudo chmod ugo+x ./build.sh
-      script: ./build.sh 64 travis
+      script: cargo make pi3 --profile 64-travis
 
     - name: "03_INTERRUPT Aarch32"
       install:
@@ -70,8 +66,7 @@ matrix:
         - rustup component add rust-src
         - rustup component add llvm-tools-preview
         - cd ./03_INTERRUPT
-        - sudo chmod ugo+x ./build.sh
-      script: ./build.sh 32 travis
+      script: cargo make pi3 --profile 32
 
     - name: "03_INTERRUPT Aarch64"
       install:
@@ -82,8 +77,7 @@ matrix:
         - rustup component add rust-src
         - rustup component add llvm-tools-preview
         - cd ./03_INTERRUPT
-        - sudo chmod ugo+x ./build.sh
-      script: ./build.sh 64 travis
+      script: cargo make pi3 --profile 64-travis
 
     - name: "04_I2C Aarch32"
       install:
@@ -94,8 +88,7 @@ matrix:
         - rustup component add rust-src
         - rustup component add llvm-tools-preview
         - cd ./04_I2C
-        - sudo chmod ugo+x ./build.sh
-      script: ./build.sh 32 travis
+      script: cargo make pi3 --profile 32
 
     - name: "04_I2C Aarch64"
       install:
@@ -106,5 +99,4 @@ matrix:
         - rustup component add rust-src
         - rustup component add llvm-tools-preview
         - cd ./04_I2C
-        - sudo chmod ugo+x ./build.sh
-      script: ./build.sh 64 travis
+      script: cargo make pi3 --profile 64-travis

@@ -81,11 +81,11 @@ could simply call ``println!`` in our kernel code.
 ## :hammer_and_wrench: Building the kernel
 
 If all tools has been successfully configured ( as described [here](../README.md)), building the
-kernel could be done by executing one the following scripts in the projects root folder:
-Target Architecture | Windows                  | Linux
---------------------|--------------------------|---------------------------
-Aarch32             | <pre>$> make all32</pre> | <pre>$> ./build.sh 32</pre>
-Aarch64             | <pre>$> make all64</pre> | <pre>$> ./build.sh 64</pre>
+kernel could be done by executing one the following commands in the projects root folder:
+Target Architecture | Command
+--------------------|--------------------------
+Aarch32             | <pre>$> cargo make pi3 --profile a32</pre> 
+Aarch64             | <pre>$> cargo make pi3 --profile a64</pre>
 
 This might take a while at the first attempt as it does download the dependend crates from
 [crates.io](https://crates.io) and does cross compile the Rust core library. As the build process is
