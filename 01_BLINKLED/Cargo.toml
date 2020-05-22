@@ -3,7 +3,7 @@ name = "TUT_01_blinkled"
 authors = ["André Borrmann <pspwizard@gmx.de>"]
 version = "0.0.1" # remember to update html_root_url
 description = """
-This is the RusPiRo Tutorial crate to show case the usage ogf GPIO to blink connected LED's
+This is the RusPiRo Tutorial crate to show case the usage of GPIO to blink connected LEDs
 """
 license = "Apache-2.0"
 readme = "README.md"
