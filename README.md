@@ -46,16 +46,14 @@ Aarch32 build target | Aarch64 build target
 
 We finish the Rust installation by adding the source code component as it needs to be available for
 the cross compilation:
-```
+
+```shell
 $> rustup component add rust-src
 ```
 
 ### :gear: Cross compiler
 
-After finishing all the rust configurations we would need a cross compilation toolchain available 
-for our host machine and able to compile to the desired target system architecture. For the windows 
-host machine this could be donwloaded here:
-https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-a/downloads .
+After finishing all the rust configurations we would need a cross compilation toolchain available for our host machine and able to compile to the desired target system architecture. For the windows host machine this could be donwloaded here: https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-a/downloads .
 
 Architecture | Windows Toolchain | Linux Toolchain
 -------------|-------------------|-------------------
@@ -67,27 +65,28 @@ point to the ``bin`` and the ``lib`` subfolders of the toolchain installed.
 
 ### :pager: IDE
 
-To write the Rust code you would need an IDE that supports you in writing this code and also giving
-code completion and early hints on the syntax. For this purpose I use and recommend [Visual Studio Code](https://code.visualstudio.com/).
-Once downloaded and installed you should at least install the [Rust Language Server](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust)
-extension. This will, when used the first time, automatically install the rust language server (RLS)
-for you. If you'd like to install it on your own use this command:
-```
+To write the Rust code you would need an IDE that supports you in writing this code and also giving code completion and early hints on the syntax. For this purpose I use and recommend [Visual Studio Code](https://code.visualstudio.com/). Once downloaded and installed you should at least install the [Rust Language Server](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust) extension. This will, when used the first time, automatically install the rust language server (RLS) for you. If you'd like to install it on your own use this command:
+
+```shell
 $> rustup component add rls --toolchain nightly
 ```
 
-In case you'd like to use the RLS to not compile for the host system but also for the desired target some additional steps should
-be considered.
+Another great extension to be used with Visual Studio Code is the [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=matklad.rust-analyzer) that can be used as alternative to the `Rust Language Server` and does provide some additional useful features. 
+#### 
+In case you'd like to use the RLS to not compile for the host system but also for the desired target some additional steps should be considered.
 
 First we should set the global environment variables to tell rust which ``gcc`` and ``ar`` to use for the cross compilation like so
+
 ```shell
-$> set CC_aarch64-unknown-linux-gnu=aarch64-none-elf-gcc.exe
-$> set AR_aarch64-unknown-linux-gnu=aarch64-none-elf-ar.exe
+$> set CC_aarch64-unknown-none=aarch64-none-elf-gcc.exe
+$> set AR_aarch64-unknown-none=aarch64-none-elf-ar.exe
 ```
+
 However, those are best set in the global system environment variables to allow the RLS to pick them up. In macOS/Linux this might be settings for the ``.bashprofile``.
 
 Further more it makes sense within Visual Studio Code to set the following settings (could be done workspace specific):
-```
+
+```json
     "rust.build_on_save": true,
     "rust.clippy_preference": "on",
     "rust.target": "aarch64-unknown-none",
@@ -115,12 +114,14 @@ GROUND on Raspberry Pi). If this is done you could use a cargo subcommand to pus
 kernel file to the Raspberry Pi.
 
 Install the subcommand with:
-```
+
+```shell
 $> cargo install cargo-ruspiro-push
 ```
 
 And then execute it from your projects root folder like so:
-```
+
+```shell
 $> cargo ruspiro-push -k ./target/kernel8.img -p COM5
 ```
 Adjust the name of your kernel file and the serial port name of this command to your needs.
