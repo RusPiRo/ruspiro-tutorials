@@ -6,7 +6,7 @@ CC = "aarch64-none-elf-gcc"
 AR = "aarch64-none-elf-ar"
 OC = "aarch64-none-elf-objcopy"
 CFLAGS = "-march=armv8-a -Wall -O3 -nostdlib -nostartfiles -ffreestanding -mtune=cortex-a53"
-RUSTFLAGS = "-C linker=${CC} -C target-cpu=cortex-a53 -C link-arg=-nostartfiles -C link-arg=-T./link64.ld"
+RUSTFLAGS = "-C linker=${CC} -C target-cpu=cortex-a53 -C target-feature=+strict-align,+a53,+fp-armv8,+neon -C link-arg=-nostartfiles -C link-arg=-T./link64.ld"
 BUILD_TARGET = "aarch64-unknown-linux-gnu"
 KERNEL = "kernel8.img"
 
@@ -14,8 +14,8 @@ KERNEL = "kernel8.img"
 CC = "arm-none-eabi-gcc"
 AR = "arm-none-eabi-ar"
 OC = "arm-none-eabi-objcopy"
-CFLAGS = "-mcpu=cortex-a53 -march=armv7-a -mfpu=neon -mfloat-abi=softfp -Wall -O3 -nostdlib -nostartfiles"
-RUSTFLAGS = "-C linker=${CC} -C target-cpu=cortex-a53 -C link-arg=-nostartfiles -C link-arg=-T./link32.ld"
+CFLAGS = "-march=armv7-a -Wall -O3 -nostdlib -nostartfiles -mfpu=neon -mfloat-abi=hard  -mtune=cortex-a7"
+RUSTFLAGS = "-C linker=${CC} -C target-cpu=cortex-a7 -C target-feature=+strict-align,+a7 -C link-arg=-nostartfiles -C link-arg=-T./link32.ld"
 BUILD_TARGET = "armv7a-none-eabi"
 KERNEL = "kernel7.img"
 
@@ -32,6 +32,9 @@ KERNEL = "kernel8.img"
 [tasks.kernel]
 command = "${OC}"
 args = ["-O", "binary", "target/${BUILD_TARGET}/release/kernel", "target/${KERNEL}"]
+dependencies = [
+    "xbuild"
+]
 
 [tasks.xbuild]
 command = "cargo"
@@ -39,9 +42,20 @@ args = ["xbuild", "--target", "${BUILD_TARGET}", "--release", "--bin", "kernel",
 
 [tasks.pi3]
 env = { FEATURES = "ruspiro_pi3" }
-run_task = [
-    { name = "xbuild" },
-    { name = "kernel" }
+run_task = "kernel"
+
+[tasks.qemu]
+command = "qemu-system-aarch64"
+args = ["-M", "raspi3", "-kernel", "./target/${KERNEL}", "-serial", "null", "-serial", "stdio",  "-d", "int,mmu", "-D", "qemu.log"]
+dependencies = [
+    "pi3"
+]
+
+[tasks.deploy]
+command = "cargo"
+args = ["ruspiro-push", "-k", "./target/${KERNEL}", "-p", "COM3"]
+dependencies = [
+    "pi3"
 ]
 
 [tasks.clean]

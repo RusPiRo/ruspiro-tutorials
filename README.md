@@ -46,16 +46,14 @@ Aarch32 build target | Aarch64 build target
 
 We finish the Rust installation by adding the source code component as it needs to be available for
 the cross compilation:
-```
+
+```shell
 $> rustup component add rust-src
 ```
 
 ### :gear: Cross compiler
 
-After finishing all the rust configurations we would need a cross compilation toolchain available 
-for our host machine and able to compile to the desired target system architecture. For the windows 
-host machine this could be donwloaded here:
-https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-a/downloads .
+After finishing all the rust configurations we would need a cross compilation toolchain available for our host machine and able to compile to the desired target system architecture. For the windows host machine this could be donwloaded here: https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-a/downloads .
 
 Architecture | Windows Toolchain | Linux Toolchain
 -------------|-------------------|-------------------
@@ -67,66 +65,39 @@ point to the ``bin`` and the ``lib`` subfolders of the toolchain installed.
 
 ### :pager: IDE
 
-To write the Rust code you would need an IDE that supports you in writing this code and also giving
-code completion and early hints on the syntax. For this purpose I use and recommend [Visual Studio Code](https://code.visualstudio.com/).
-Once downloaded and installed you should at least install the [Rust Language Server](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust)
-extension. This will, when used the first time, automatically install the rust language server (RLS)
-for you. If you'd like to install it on your own use this command:
-```
+To write the Rust code you would need an IDE that supports you in writing this code and also giving code completion and early hints on the syntax. For this purpose I use and recommend [Visual Studio Code](https://code.visualstudio.com/). Once downloaded and installed you should at least install the [Rust Language Server](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust) extension. This will, when used the first time, automatically install the rust language server (RLS) for you. If you'd like to install it on your own use this command:
+
+```shell
 $> rustup component add rls --toolchain nightly
 ```
 
-In case you'd like to use the RLS to not compile for the host system but also for the desired target some additional steps should
-be considered.
-
-First we should set the global environment variables to tell rust which ``gcc`` and ``ar`` to use for the cross compilation like so
-```shell
-$> set CC_aarch64-unknown-linux-gnu=aarch64-none-elf-gcc.exe
-$> set AR_aarch64-unknown-linux-gnu=aarch64-none-elf-ar.exe
-```
-However, those are best set in the global system environment variables to allow the RLS to pick them up. In macOS/Linux this might be settings for the ``.bashprofile``.
-
-Further more it makes sense within Visual Studio Code to set the following settings (could be done workspace specific):
-```
-    "rust.build_on_save": true,
-    "rust.clippy_preference": "on",
-    "rust.target": "aarch64-unknown-none",
-    "rust.rustflags": "-C linker=aarch64-none-elf-gcc -C target-cpu=cortex-a53"
-```
+Another great extension to be used with Visual Studio Code is the [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=matklad.rust-analyzer) that can be used as alternative to the `Rust Language Server` and does provide some additional useful features.
 
 ### :computer: Deployment
 
-The result of a successfull build will be a binary kernel file. The easiest way to get this executed
-on the Raspberry Pi is to copy it onto a fresh FAT32 formatted SD card. This SD card need to contain
-additional files like ``bootcode.bin``, ``start.elf`` and ``fixup.dat``. They can be found [here](../RPi)
-or the lates official versions in this [Github Repo](https://github.com/raspberrypi/firmware/tree/master/boot).
-The files with ``_x`` suffix indicate extended versions of the Raspberry Pi Firmware that enable
-access to additional hardware like the built-in bluetooth controller and the like. So if you foresee
-to use all the peripherals of the Raspberry Pi in future projects I recommnd to use those files.
+The result of a successfull build will be a binary kernel file. The easiest way to get this executed on the Raspberry Pi is to copy it onto a fresh FAT32 formatted SD card. This SD card need to contain additional files like ``bootcode.bin``, ``start.elf`` and ``fixup.dat``. They can be found [here](../RPi) or the lates official versions in this [Github Repo](https://github.com/raspberrypi/firmware/tree/master/boot). The files with ``_x`` suffix indicate extended versions of the Raspberry Pi Firmware that enable access to additional hardware like the built-in bluetooth controller and the like. So if you foresee to use all the peripherals of the Raspberry Pi in future projects I recommnd to use those files.
 
-
-Building the kernel binary file and repeatedly put it onto the SD card of the Raspberry Pi will 
-pretty soon get cumbersome. To reduce this "SD card dance" you will find an bootloader image file in
-the [RPi](../RPi) subfolder to be put on the SD card instead of your build kernel file. Once you 
-power on the Raspberry Pi this bootloader waits on the miniUART to receive a new kernel binary to 
-get executed. For this to work the Raspberry Pi need to be connected to a serial port of the
-development machine. This is usually achieved with a simple TTL-USB dongle (use GPIO 14, 15 and
-GROUND on Raspberry Pi). If this is done you could use a cargo subcommand to push your new built
-kernel file to the Raspberry Pi.
+Building the kernel binary file and repeatedly put it onto the SD card of the Raspberry Pi will  pretty soon get cumbersome. To reduce this "SD card dance" you will find an bootloader image file in the [RPi](../RPi) subfolder to be put on the SD card instead of your build kernel file. Once you  power on the Raspberry Pi this bootloader waits on the miniUART to receive a new kernel binary to get executed. For this to work the Raspberry Pi need to be connected to a serial port of the development machine. This is usually achieved with a simple TTL-USB dongle (use GPIO 14, 15 and GROUND on Raspberry Pi). If this is done you could use a cargo subcommand to push your new built kernel file to the Raspberry Pi.
 
 Install the subcommand with:
-```
+
+```shell
 $> cargo install cargo-ruspiro-push
 ```
 
 And then execute it from your projects root folder like so:
-```
+
+```shell
 $> cargo ruspiro-push -k ./target/kernel8.img -p COM5
 ```
+
 Adjust the name of your kernel file and the serial port name of this command to your needs.
 > :bulb: **HINT** The ``ruspiro-push`` tool determines based on the kernel file name whether to run
 > in Aarch32 (kernel7.img) or Aarch64 (kernel8.img) mode. If you use any other file name provide the
 > ``-a`` parameter to selct the target architecture.
+
+
+> :bulb: **HINT** The `Makefile.toml` of the examples of this tutorial series also provides a build step to build and deploy the kernel to the Raspberry Pi connected to the hostinng machine. Simply execute it with `cargo make --profile a64 deploy`. The console of the host machine will mirror the console/UART1 output of the Raspberry Pi.
 
 ## :tada: Ready to go...
 
