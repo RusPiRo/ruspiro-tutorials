@@ -1,4 +1,8 @@
 # Changelog
+## :banana: v0.5.2
+  - ### :wrench: Maintenance
+    Update the tutorials to use the latest versions of the dependent RusPiRo crates to run woth the current version of the Rust nightly compiler.
+
 ## :banana: v0.5.1
   - ### :wrench: Maintenance
     Use ``cargo-make`` cargo plugin to conviniently build the tutorials cross system. This reduces the maintenance efforts
