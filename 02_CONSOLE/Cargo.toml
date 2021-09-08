@@ -30,8 +30,3 @@ ruspiro-mmu = "~0.1.1"
 ruspiro_pi3 = [
     "ruspiro-uart/ruspiro_pi3"
 ]
-
-[patch.crates-io]
-#ruspiro-boot = { path = "../../ruspiro-boot" }
-#ruspiro-gpio = { git = "https://github.com/RusPiRo/ruspiro-gpio.git", branch = "development" }
-ruspiro-uart = { path = "../../ruspiro-uart" }
