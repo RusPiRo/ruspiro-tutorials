@@ -19,15 +19,14 @@ path = "./src/kernel.rs"
 cc = "1.0"
 
 [dependencies]
-ruspiro-boot = "0.3"
-ruspiro-allocator = "0.4"
-ruspiro-gpio = "0.4"
-ruspiro-timer = "0.4"
+ruspiro-allocator = "~0.4.5"
+ruspiro-boot = { version = "~0.5.3", features = [ "multicore" ] }
+ruspiro-gpio = "~0.4.2"
+ruspiro-mmu = "~0.1.1"
+ruspiro-timer = "~0.5.1"
 
 [features]
 ruspiro_pi3 = [
-    "ruspiro-boot/ruspiro_pi3",
     "ruspiro-gpio/ruspiro_pi3",
     "ruspiro-timer/ruspiro_pi3"
 ]
-

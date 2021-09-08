@@ -1,6 +1,6 @@
-/*********************************************************************************************************************** 
+/***********************************************************************************************************************
  * Copyright (c) 2019 by the authors
- * 
+ *
  * Author: André Borrmann
  * License: Apache License 2.0 / MIT
  **********************************************************************************************************************/
@@ -8,7 +8,7 @@
 #![no_main]
 
 //! # Interrupt handling
-//! 
+//!
 //! This is demonstrating how to implement an interrupt handler for a specific interrupt that could
 //! be raised by either peripheral or built in device like the ARM timer.
 //! We will configure the system timer to raise an interrupt in specific intervalls
@@ -16,60 +16,77 @@
 //! To properly configure the system timer we would need several MMIO registers that will be
 //! defined with the help of the macros available in the [ruspiro-register crate](https://crates.io/crates/ruspiro-register)
 
+extern crate alloc;
 #[macro_use]
 extern crate ruspiro_boot;
 extern crate ruspiro_allocator;
+extern crate ruspiro_interrupt;
 
+use ruspiro_uart::Uart1;
+use ruspiro_console::*;
+use ruspiro_mmu as mmu;
 // use the functions of the interrupt crate
-use ruspiro_interrupt::*;
+use ruspiro_interrupt::{self as irq, isr_channel, Interrupt, IrqHandler};
 // use the macro to conviniently define a MMIO register
-use ruspiro_register::define_mmio_register;
+use ruspiro_mmio_register::define_mmio_register;
 
 come_alive_with!(kernel_alive);
 run_with!(kernel_run);
 
 pub fn kernel_alive(core: u32) {
-    // your one-time initialization goes here
+  // your one-time initialization goes here
+  // configure the mmu as we will deal with atomic operations (within the memory
+  // allocator that is used by the isr channel under the hood to store the data
+  // within the HEAP)
+  // use some arbitrary values for VideoCore memory start and size. This is fine
+  // as we will use a small lower amount of the ARM memory only.
+  unsafe { mmu::initialize(core, 0x3000_0000, 0x001_000) };
+
+  if core == 0 {
+    // setup UART and console
+    let mut uart = Uart1::new();
+    let _ = uart.initialize(250_000_000, 115_200);
+    CONSOLE.with_mut(|console| console.replace(uart));
+
     println!("Kernel alive on core {}", core);
-    if core == 0 {
-        // when entering here with the main core we setup the timer
-        TIMERLOAD::Register.set(0x30_000); // timer re-load value
-        // configure the timer being enabled and raising interrupts
-        TIMERCTRL::Register.write_value(
-            TIMERCTRL::WIDTH::_32Bit
-                | TIMERCTRL::IRQ::ENABLED
-                | TIMERCTRL::TIMER::ENABLED
-                | TIMERCTRL::FREERUN::ENABLED
-        );
-        // if the timer has been configured we could activate the timer interrupt to be handled
-        // by the global interrupt manager and globally activate interrupts
-        IRQ_MANAGER.take_for(|irq_mgr| irq_mgr.activate(Interrupt::ArmTimer));
-        enable_interrupts();
-    }
+    // when entering here with the main core we setup the timer
+    TIMERLOAD::Register.set(0x30_000); // timer re-load value
+                                       // configure the timer being enabled and raising interrupts
+    TIMERCTRL::Register.write_value(
+      TIMERCTRL::WIDTH::_32Bit
+        | TIMERCTRL::IRQ::ENABLED
+        | TIMERCTRL::TIMER::ENABLED
+        | TIMERCTRL::FREERUN::ENABLED,
+    );
+    // if the timer has been configured we could activate the timer interrupt to be handled
+    // by the global interrupt manager and globally activate interrupts
+    irq::activate(Interrupt::ArmTimer, None);
+    irq::enable_interrupts();
+  }
 }
 
 pub fn kernel_run(core: u32) -> ! {
-    // your processing logic goes here
-    println!("Kernel running on core {}", core);
-    // never return from here...
-    loop {}
+  // your processing logic goes here
+  println!("Kernel running on core {}", core);
+  // never return from here...
+  loop {}
 }
 
 /// Implement the interrupt handler with a specific function attribute/decorator
 /// Checkout the [ruspiro-interrupt](https://docs.rs/ruspiro-interrupt/0.3.0/ruspiro_interrupt/irqtypes/enum.Interrupt.html) documentation
 /// for all available interrupt types a handler could be implemented for
 #[IrqHandler(ArmTimer)]
-fn my_timer_handler() {
-    // first thing to do is to acknowledge the timer interrupt to clear the interrupt line
-    // this is done by writing any value to the acknowledge register
-    TIMERACKN::Register.set(0x1);
-    // now we are able to perform whatever we want at this interrupt, keeping in mind to return
-    // from the handler as soon as possible
-    // for the sake of simplicity we just write stuff to the console. BUT be careful:
-    // println! will lock the console to be used which might lead to deadlocks in case this interrupt
-    // was raised in the middle of another println! However, as we are sure there is no other core
-    // doing this, and this is the only active code line at this moment we are on the safe side...
-    println!("timer raised");
+fn my_timer_handler(tx: Option<IsrSender<Box<dyn Any>>>) {
+  // first thing to do is to acknowledge the timer interrupt to clear the interrupt line
+  // this is done by writing any value to the acknowledge register
+  TIMERACKN::Register.set(0x1);
+  // now we are able to perform whatever we want at this interrupt, keeping in mind to return
+  // from the handler as soon as possible
+  // for the sake of simplicity we just write stuff to the console. BUT be careful:
+  // println! will lock the console to be used which might lead to deadlocks in case this interrupt
+  // was raised in the middle of another println! However, as we are sure there is no other core
+  // doing this, and this is the only active code line at this moment we are on the safe side...
+  println!("timer raised");
 }
 
 // Define the MMIO registers to be used with the timer, those might go into the
