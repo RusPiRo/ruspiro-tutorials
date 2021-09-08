@@ -1,0 +1,123 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build_01:
+    name: Compile 01-Blinkled
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the current code from github into the CI machine
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Install aarch64 gcc toolchain
+        run: sudo apt-get install -y gcc-aarch64-linux-gnu
+
+      # install toolchain based on rust-toolchain file
+      - name: Install Rust Nightly and Cargo
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly
+          profile: minimal
+          components: rust-src, llvm-tools-preview
+          target: aarch64-unknown-none
+          override: true
+
+      - name: Install Cargo Make
+        uses: davidB/rust-cargo-make@v1
+        with:
+          version: 'latest'
+
+      - name: Compile
+        run: cd 01_BLINKLED && cargo make pi3 --profile pipeline
+
+  build_02:
+    name: Compile 02-Console
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the current code from github into the CI machine
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Install aarch64 gcc toolchain
+        run: sudo apt-get install -y gcc-aarch64-linux-gnu
+
+      # install toolchain based on rust-toolchain file
+      - name: Install Rust Nightly and Cargo
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly
+          profile: minimal
+          components: rust-src, llvm-tools-preview
+          target: aarch64-unknown-none
+          override: true
+
+      - name: Install Cargo Make
+        uses: davidB/rust-cargo-make@v1
+        with:
+          version: 'latest'
+
+      - name: Compile
+        run: cd 02_CONSOLE && cargo make pi3 --profile pipeline
+
+  build_03:
+    name: Compile 03-Interrupt
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the current code from github into the CI machine
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Install aarch64 gcc toolchain
+        run: sudo apt-get install -y gcc-aarch64-linux-gnu
+
+      # install toolchain based on rust-toolchain file
+      - name: Install Rust Nightly and Cargo
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly
+          profile: minimal
+          components: rust-src, llvm-tools-preview
+          target: aarch64-unknown-none
+          override: true
+
+      - name: Install Cargo Make
+        uses: davidB/rust-cargo-make@v1
+        with:
+          version: 'latest'
+
+      - name: Compile
+        run: cd 03_INTERRUPT && cargo make pi3 --profile pipeline
+
+  build_04:
+    name: Compile 04-I²C
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the current code from github into the CI machine
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Install aarch64 gcc toolchain
+        run: sudo apt-get install -y gcc-aarch64-linux-gnu
+
+      # install toolchain based on rust-toolchain file
+      - name: Install Rust Nightly and Cargo
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly
+          profile: minimal
+          components: rust-src, llvm-tools-preview
+          target: aarch64-unknown-none
+          override: true
+
+      - name: Install Cargo Make
+        uses: davidB/rust-cargo-make@v1
+        with:
+          version: 'latest'
+
+      - name: Compile
+        run: cd 04_I2C && cargo make pi3 --profile pipeline

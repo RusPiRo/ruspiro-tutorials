@@ -128,7 +128,8 @@ The next part is to refer to the dependent crates to have access to the function
 extern crate ruspiro_boot;          // link in the bootstrap functions
 extern crate ruspiro_allocator;     // link in the custom heap allocator
 use ruspiro_gpio::GPIO;             // provide access to the GPIO api
-use ruspiro_timer as timer;         // provide access to the timer function with an alias 'timer' 
+use ruspiro_timer as timer;         // provide access to the timer function with an alias 'timer'
+use ruspiro_mmu as mmu;             // provide access to the Memory Management Unit of the Raspberry Pi
 ```
 
 After all the declarations its now time to implement the functionality we would like our kernel to
@@ -136,6 +137,7 @@ perform. To provide the implementations for the entry points the bootstrapper is
 ``ruspiro-boot`` comes with 2 macros. So you define 2 functions, one for a one-time initialization
 and a second one for the main processing loop. Then you use the afformentioned macros to "mark" those
 functions as the required entry points. This looks like this in code:
+
 ```rust
 // Set the function that is called on each core once it is alive and prepared to branch
 // into the Rust 'world'
@@ -144,6 +146,12 @@ come_alive_with!(alive);
 /// Any one-time initialization might be done here.
 fn alive(_core: u32) {
     // nothing to do at this time...
+    // configure the mmu as we will deal with atomic operations (within the memory
+    // allocator that is used by the singleton under the hood to store the data
+    // within the HEAP)
+    // use some arbitrary values for VideoCore memory start and size. This is fine
+    // as we will use a small lower amount of the ARM memory only.
+    unsafe { mmu::initialize(core, 0x3000_0000, 0x001_000) };
 }
 
 // Set the function that is called on each core after the ``come_alive_with`` function has
@@ -155,10 +163,10 @@ run_with!(running);
 fn running(core: u32) -> ! {
     // based on the core provided use a different GPIO pin to blink a different LED
     let pin = match core {
-        0 => GPIO.take_for(|gpio| gpio.get_pin(17)).unwrap().to_output(),
-        1 => GPIO.take_for(|gpio| gpio.get_pin(18)).unwrap().to_output(),
-        2 => GPIO.take_for(|gpio| gpio.get_pin(20)).unwrap().to_output(),
-        3 => GPIO.take_for(|gpio| gpio.get_pin(21)).unwrap().to_output(),
+        0 => GPIO.with_mut(|gpio| gpio.get_pin(17)).unwrap().to_output(),
+        1 => GPIO.with_mut(|gpio| gpio.get_pin(18)).unwrap().to_output(),
+        2 => GPIO.with_mut(|gpio| gpio.get_pin(20)).unwrap().to_output(),
+        3 => GPIO.with_mut(|gpio| gpio.get_pin(21)).unwrap().to_output(),
         _ => unreachable!()
     };
 
@@ -166,9 +174,9 @@ fn running(core: u32) -> ! {
     // blinking the LED
     loop {
         pin.high();
-        timer::sleep(10000 + 10000*core as u64);
+        timer::sleep(timer::Useconds(100_000*(core + 1) as u64));
         pin.low();
-        timer::sleep(15000 + 5000*core as u64);
+        timer::sleep(timer::Useconds(50_000*(core + 1) as u64));
     } // never return here...
 }
 ```
@@ -185,11 +193,11 @@ specific sleep intervall to let the LED for each core blink in a bit different i
 ## :hammer_and_wrench: Building the kernel
 
 If all tools has been successfully configured ( as described [here](../README.md)), building the
-kernel could be done by executing one the following commands in the projects root folder:
-Target Architecture | Command
---------------------|--------------------------
-Aarch32             | <pre>$> cargo make pi3 --profile a32</pre> 
-Aarch64             | <pre>$> cargo make pi3 --profile a64</pre>
+kernel could be done by executing one the following command in the projects root folder:
+
+```bash
+$> cargo make pi3
+```
 
 This might take a while at the first attempt as it does download the dependend crates from
 [crates.io](https://crates.io) and does cross compile the Rust core library. As the build process is
@@ -199,8 +207,11 @@ The result of a successful execution of the build is the binary file ``kernel8.i
 subfolder.
 
 ## :computer: Deploy the kernel
+
 There are two options available to deploy the kernel to your Raspberry Pi:
+
 ### :floppy_disk: 1. Manual
+
 Put this file to the SD card of your Raspberry Pi alongside
 with the ``bootcode.bin``, ``start.elf`` and ``fixup.dat``. Those files could be found [here](../RPi) or the latest
 version on the official Raspberry Pi [firmware repo](https://github.com/raspberrypi/firmware/tree/master/boot).
@@ -210,24 +221,26 @@ requires you to remove the SD card, update the kernel image file and then insert
 Raspberry Pi for a next round of testing. This "SD-Card-Dance" will become cumbersome quite soon.
 
 ### :fax: 2. Bootloader
+
 This approach eliminates the "SD-Card-Dance". You will put all files contained in the [RPi](../RPi)
 subfolder of this repo to your SD card. Including the ``kernel8.img`` which actually is the bootloader.
 Connect your Raspberry Pi miniUART GPIO's to the serial Port of your development machine (usually done
 through a serial TTLB-USB dongle) and power up your raspberry Pi.
 Once a new kernel has been build and is present in the ``target`` subfolder of your project just execute
-```
+
+```bash
 $> cargo ruspiro-push -k ./target/kernel8.img -p COM5
 ```
+
 The serial port identifier may be different on your machine - ``COM5`` is the one on my Windows one.
 For each new test cycle, just power of/on the Raspberry Pi and use the afformentioned command to push
 a new version to the device.
 
-## :control_knobs: To many cores ?
-The bootstrapping of any bare metal kernel is by default kicking off all 4 cores of the Raspberry Pi.
-If you'd rather like to use only a single core as this might make testing easier you could activate
-the `singlecore` feature for the `ruspiro-boot` crate in the `[dependencies]` section of the
-`Cargo.toml`file.
+## :control_knobs: Need more cores ?
+
+The bootstrapping of any bare metal kernel is by default kicking off onle 1 core of the Raspberry Pi. If you'd rather like to use all 4 cores you could activate the `multicore` feature for the `ruspiro-boot` crate in the `[dependencies]` section of the `Cargo.toml`file.
+
 ```toml
 [dependencies]
-ruspiro-boot = { version = "0.3", features = ["ruspiro_pi3", "singlecore"] }
+ruspiro-boot = { version = "0.5.3", features = ["multicore"] }
 ```

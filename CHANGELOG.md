@@ -1,7 +1,7 @@
 # Changelog
 ## :banana: v0.5.2
   - ### :wrench: Maintenance
-    Update the tutorials to use the latest versions of the dependent RusPiRo crates to run woth the current version of the Rust nightly compiler.
+    Update the tutorials to use the latest versions of the dependent RusPiRo crates to run with the current version of the Rust nightly compiler.
 
 ## :banana: v0.5.1
   - ### :wrench: Maintenance

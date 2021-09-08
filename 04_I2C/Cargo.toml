@@ -20,12 +20,15 @@ path = "./src/kernel.rs"
 cc = "1.0"
 
 [dependencies]
-ruspiro-boot = { version = "0.3", features = [ "singlecore" ] }
-ruspiro-allocator = "0.4"
-ruspiro-i2c = "0.3"
+ruspiro-boot = "~0.5.3"
+ruspiro-allocator = "~0.4.5"
+ruspiro-console = "~0.5.3"
+ruspiro-i2c = "~0.4.0"
+ruspiro-uart = "~0.4.0"
+ruspiro-mmu = "~0.1.1"
 
 [features]
 ruspiro_pi3 = [
-    "ruspiro-boot/ruspiro_pi3",
-    "ruspiro-i2c/ruspiro_pi3"
+    "ruspiro-i2c/ruspiro_pi3",
+    "ruspiro-uart/ruspiro_pi3"
 ]

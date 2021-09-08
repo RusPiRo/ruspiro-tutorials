@@ -9,22 +9,17 @@
 
 //! # Hello World
 //!
-//! This is the initial RusPiRo tutorial. It's the bare metal version of a "Hello World" programm greeting the world
-//! by blinking a LED. It's intention is - while limited in functionality - to verify the tools and programs are properly
-//! installed and configured to build a running bare metal kernel for the Raspberry Pi.
+//! This is the second RusPiRo tutorial. This time it's a real version of a "Hello World" programm.
 //!
-//! The Raspberry Pi contains 4 cores that will execute independently from each other. So we assigned a dedicated GPIO pin
-//! to each core. If using all 4 cores is not required adjust the `ruspiro-boot`dependency to
-//! activiate the `singlecore`feature like so:
-//! ```toml
-//! [dependencies]
-//! ruspiro-boot = { version = "0.3", features = ["ruspiro_pi3", "singlecore"] }
-//! ```
 //!
 
 #[macro_use]
 extern crate ruspiro_boot;
 extern crate ruspiro_allocator;
+
+use ruspiro_uart::Uart1;
+use ruspiro_console::*;
+use ruspiro_mmu as mmu;
 
 // Set the function that is called on each core once it is alive and prepared to branch
 // into the Rust 'world'
@@ -32,6 +27,20 @@ come_alive_with!(alive);
 
 /// Any one-time initialization might be done here.
 fn alive(core: u32) {
+    // configure the mmu as we will deal with atomic operations (within the memory
+    // allocator that is used by the isr channel under the hood to store the data
+    // within the HEAP)
+    // use some arbitrary values for VideoCore memory start and size. This is fine
+    // as we will use a small lower amount of the ARM memory only.
+    unsafe { mmu::initialize(core, 0x3000_0000, 0x001_000) };
+
+    if core == 0 {
+        // setup UART and console
+        let mut uart = Uart1::new();
+        let _ = uart.initialize(250_000_000, 115_200);
+        CONSOLE.with_mut(|console| console.replace(uart));
+    }
+    
     println!("Hello World from core: {}", core);
 }
 
